@@ -1,0 +1,20 @@
+{
+  "name": "ghostwriter",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "produce": "FORCE_COLOR=1 dotenv -- turbo run produce",
+    "draft": "dotenv -- pnpm --filter actor produce",
+    "direct": "dotenv -- pnpm --filter video direct"
+  },
+  "devDependencies": {
+    "prettier": "^2.7.1",
+    "dotenv-cli": "latest",
+    "turbo": "latest"
+  },
+  "packageManager": "pnpm@7.15.0",
+  "workspaces": [
+    "packages/*"
+  ]
+}

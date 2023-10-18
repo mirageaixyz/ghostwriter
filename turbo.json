@@ -1,0 +1,18 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": [".env"],
+  "pipeline": {
+    "produce": {
+      "dependsOn": ["^produce"],
+      "outputs": ["out/**", "dist/**"]
+    },
+    "edit": {
+      "dependsOn": ["^produce"],
+      "cache": false
+    },
+    "draft": {
+      "dependsOn": ["^produce"],
+      "cache": false
+    }
+  }
+}

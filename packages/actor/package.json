@@ -1,0 +1,32 @@
+{
+  "name": "@ghostwriter/actor",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "out/index.js",
+  "module": "out/index.js",
+  "types": "src/index.ts",
+  "browser": "src/index.ts",
+  "files": [
+    "out"
+  ],
+  "scripts": {
+    "produce": "tsx src/index.ts; cp -r out ../video/public",
+    "save": "cp -r out ../video/public"
+  },
+  "devDependencies": {
+    "@types/fluent-ffmpeg": "^2.1.22",
+    "@types/node": "^20.3.1",
+    "dotenv-cli": "^7.3.0",
+    "elevenlabs-node": "^1.2.0",
+    "tsx": "^3.12.7",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "audioconcat": "^0.1.4",
+    "consola": "^3.1.0",
+    "fluent-ffmpeg": "^2.1.2",
+    "openai": "^4.11.1",
+    "valibot": "^0.18.0"
+  }
+}
