@@ -30,9 +30,9 @@ const Caption: React.FC<Props> = ({text, durationInFrames}) => {
 	const line = useMemo(() => lines[Math.round(index)], [index, lines]);
 
 	return (
-		<div className="absolute bottom-16 z-30 flex w-full items-center justify-center bg-black/50">
+		<div className="absolute bottom-[51.25%] z-30 flex w-full items-center justify-center bg-black/50">
 			<span
-				className={`px-4 text-6xl text-white font-bold leading-relaxed text-center [text-wrap:balance]`}
+				className={`px-4 text-7xl text-white font-bold leading-relaxed text-center [text-wrap:balance]`}
 			>
 				{line}
 			</span>
