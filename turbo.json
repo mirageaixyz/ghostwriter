@@ -2,8 +2,8 @@
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": [".env"],
   "pipeline": {
-    "produce": {
-      "dependsOn": ["^produce"],
+    "build": {
+      "dependsOn": ["^build"],
       "outputs": ["out/**", "dist/**"]
     },
     "edit": {

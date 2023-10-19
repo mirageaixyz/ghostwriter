@@ -6,6 +6,7 @@ export async function direct() {
       resolve(format.duration ?? 0);
     })
   );
+
   await new Promise<void>((resolve) =>
     ffmpeg()
       .input("video.mp4")

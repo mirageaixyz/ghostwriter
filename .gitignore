@@ -13,6 +13,7 @@ coverage
 
 # dist
 dist
+out
 
 # misc
 .DS_Store
@@ -35,3 +36,5 @@ yarn-error.log*
 
 # random
 waitlist.ts
+
+video.mp4

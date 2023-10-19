@@ -5,25 +5,18 @@
   "sideEffects": [
     "*.css"
   ],
+  "type": "module",
   "scripts": {
-    "direct": "remotion studio",
-    "produce": "remotion render presidents out/video.mp4"
+    "direct": "remotion studio"
   },
   "repository": {},
-  "pnpm": {
-    "peerDependencyRules": {
-      "ignoreMissing": [
-        "webpack"
-      ]
-    }
-  },
   "dependencies": {
-    "@ghostwriter/actor": "*",
     "@remotion/bundler": "4.0.50",
     "@remotion/cli": "4.0.50",
     "@remotion/eslint-plugin": "4.0.50",
     "@remotion/google-fonts": "^4.0.49",
     "@remotion/media-utils": "^4.0.49",
+    "@remotion/renderer": "^4.0.50",
     "@remotion/zod-types": "4.0.50",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
@@ -37,7 +30,7 @@
     "@types/web": "^0.0.86",
     "eslint": "^8.43.0",
     "prettier": "^2.8.8",
+    "tsx": "^3.12.7",
     "typescript": "^4.9.4"
-  },
-  "packageManager": "pnpm@7.21.0"
+  }
 }
