@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 const LandingPage = () => {
     return (
         <>
-            <h1>Mirage AI Productions</h1>
+            <h1 className="underline">Mirage AI Productions</h1>
             <Link to="/login">Login</Link>
         </>
     )
