@@ -17,7 +17,7 @@ if (kind === "ai") {
     }
   );
 
-  await produce({
+  await produce("result", {
     kind,
     topic: topic || "cats",
   });
@@ -45,7 +45,7 @@ if (kind === "ai") {
     script.push({ name: person, content });
   }
 
-  await produce({
+  await produce("result", {
     kind,
     script,
   });

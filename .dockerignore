@@ -2,12 +2,14 @@
 
 # dependencies
 node_modules
-**/node_modules
 .pnp
 .pnp.js
 
 # testing
 coverage
+
+# svelte
+.svelte-kit
 
 # dist
 dist
@@ -35,8 +37,4 @@ yarn-error.log*
 # random
 waitlist.ts
 
-custom.txt
-script.txt
 video.mp4
-
-dist/

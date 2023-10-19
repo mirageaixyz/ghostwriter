@@ -1,4 +1,5 @@
 import { serve } from "@hono/node-server";
+import { serveStatic } from "@hono/node-server/serve-static";
 import { trpcServer } from "@hono/trpc-server";
 import { Hono } from "hono";
 import { createContext } from "./context.js";
@@ -11,6 +12,14 @@ app.use(
   trpcServer({
     router: appRouter,
     createContext,
+  })
+);
+
+app.get(
+  "/out/*",
+  serveStatic({
+    root: "./",
+    rewriteRequestPath: (path) => path.replace(/^\/out/, "/out"),
   })
 );
 

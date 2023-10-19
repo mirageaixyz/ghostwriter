@@ -2,6 +2,8 @@ import { initTRPC } from "@trpc/server";
 import workerpool from "workerpool";
 import { z } from "zod";
 import { Context } from "./context.js";
+import { content } from "./data/content.js";
+import { nid } from "./data/memory.js";
 import { produce } from "./production/index.js";
 
 const pool = workerpool.pool();
@@ -10,6 +12,10 @@ export const t = initTRPC.context<Context>().create();
 
 export const appRouter = t.router({
   hello: t.procedure.query(() => "Hello"),
+
+  status: t.procedure
+    .input(z.string())
+    .query(({ input }) => content.get(input) ?? null),
 
   content: t.procedure
     .input(
@@ -22,10 +28,11 @@ export const appRouter = t.router({
       ])
     )
     .mutation(async ({ input }) => {
-      produce(input);
+      const id = nid();
+      produce(id, input);
 
       return {
-        uri: `/video.mp4`,
+        uri: `/out/${id}.mp4`,
       };
     }),
 });
