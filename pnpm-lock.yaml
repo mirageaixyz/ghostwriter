@@ -57,9 +57,15 @@ importers:
 
   packages/app:
     dependencies:
+      '@capacitor/android':
+        specifier: ^5.5.0
+        version: 5.5.0(@capacitor/core@5.5.0)
       '@capacitor/core':
         specifier: ^5.5.0
         version: 5.5.0
+      '@capacitor/ios':
+        specifier: ^5.5.0
+        version: 5.5.0(@capacitor/core@5.5.0)
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -406,6 +412,14 @@ packages:
       to-fast-properties: 2.0.0
     dev: true
 
+  /@capacitor/android@5.5.0(@capacitor/core@5.5.0):
+    resolution: {integrity: sha512-ipJijb3M0FA6DvotS9zrbJ8p/mTEVg9EVtBmvUexogm8g5se1mc7i1gvOr3MQ/iTZ3PnNrRC/P7kHxa2R55iqg==}
+    peerDependencies:
+      '@capacitor/core': ^5.5.0
+    dependencies:
+      '@capacitor/core': 5.5.0
+    dev: false
+
   /@capacitor/cli@5.5.0:
     resolution: {integrity: sha512-JkF7p+EV1mEFObp3e/3snKZiiDPbHTAXlch9jKcvvuCjm92Be7ka8sG4M3fH8BPajSE3jRNPZa/xt7bITDvAAA==}
     engines: {node: '>=16.0.0'}
@@ -436,6 +450,14 @@ packages:
     resolution: {integrity: sha512-w59io0ctwnb7JRng7yO2H0YLHG8uz7XARUugRfp5aYTNiG55FqdSmSMOOqGCMPRg4sEnKjJTvAa4ImCYh3Kk1w==}
     dependencies:
       tslib: 2.6.2
+    dev: false
+
+  /@capacitor/ios@5.5.0(@capacitor/core@5.5.0):
+    resolution: {integrity: sha512-kApjblUOlLY91+1OrWIx+vaVfEN1bl1kh1jSgK1/IdGfS9kFs1hxUE/okRoLJGT6tYeSOa6GA/19MLOs64wb6A==}
+    peerDependencies:
+      '@capacitor/core': ^5.5.0
+    dependencies:
+      '@capacitor/core': 5.5.0
     dev: false
 
   /@csstools/cascade-layer-name-parser@1.0.5(@csstools/css-parser-algorithms@2.3.2)(@csstools/css-tokenizer@2.2.1):
