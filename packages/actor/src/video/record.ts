@@ -9,7 +9,7 @@ export async function direct() {
 
   await new Promise<void>((resolve) =>
     ffmpeg()
-      .input("video.mp4")
+      .input("../../video.mp4")
       .input("out/output.mp3")
       .outputOptions([
         "-c:v copy",
