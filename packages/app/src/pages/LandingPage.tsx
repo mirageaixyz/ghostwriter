@@ -2,10 +2,12 @@ import { Link } from "react-router-dom"
 
 const LandingPage = () => {
     return (
-        <>
-            <h1 className="underline">Mirage AI Productions</h1>
-            <Link to="/login">Login</Link>
-        </>
+            <div className="flex flex-col justify-center items-center h-full">
+                    <h1 className="font-bold">Mirage AI Productions</h1>
+                    <Link to="/login" className="button mt-5">Login</Link>
+            </div>
+            
+
     )
 }
 
