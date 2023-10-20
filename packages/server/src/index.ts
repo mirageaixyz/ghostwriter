@@ -4,6 +4,7 @@ import { trpcServer } from "@hono/trpc-server";
 import { Hono } from "hono";
 import { createContext } from "./context.js";
 import { appRouter } from "./router.js";
+import "./scheduler.js";
 
 const app = new Hono();
 

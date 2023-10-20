@@ -1,12 +1,9 @@
 import { initTRPC } from "@trpc/server";
-import workerpool from "workerpool";
 import { z } from "zod";
 import { Context } from "./context.js";
-import { content } from "./data/content.js";
+import { Metadata, content } from "./data/content.js";
 import { nid } from "./data/memory.js";
 import { produce } from "./production/index.js";
-
-const pool = workerpool.pool();
 
 export const t = initTRPC.context<Context>().create();
 
@@ -17,22 +14,12 @@ export const appRouter = t.router({
     .input(z.string())
     .query(({ input }) => content.get(input) ?? null),
 
-  content: t.procedure
-    .input(
-      z.discriminatedUnion("kind", [
-        z.object({ kind: z.literal("ai"), topic: z.string() }),
-        z.object({
-          kind: z.literal("custom"),
-          script: z.array(z.object({ name: z.string(), content: z.string() })),
-        }),
-      ])
-    )
-    .mutation(async ({ input }) => {
-      const id = nid();
-      produce(id, input);
+  content: t.procedure.input(Metadata).mutation(async ({ input }) => {
+    const id = nid();
+    produce(id, input);
 
-      return {
-        uri: `/out/${id}.mp4`,
-      };
-    }),
+    return {
+      uri: `/out/${id}.mp4`,
+    };
+  }),
 });

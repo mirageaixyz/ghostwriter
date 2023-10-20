@@ -7,9 +7,11 @@ export async function produce(
   input: Parameters<typeof takeCut>[0]
 ) {
   const uri = `/out/${id}.mp4`;
+  const date = new Date();
 
   content.set(id, {
     id,
+    createdAt: date.toISOString(),
     video: {
       status: "pending",
     },
@@ -26,6 +28,7 @@ export async function produce(
 
   content.set(id, {
     id,
+    createdAt: date.toISOString(),
     video: {
       status: "done",
       uri,

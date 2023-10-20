@@ -8,6 +8,9 @@ export function memory<T extends z.ZodTypeAny>(schema: T) {
     set: (id: string, value: z.infer<T>) => {
       cache.set(id, value);
     },
+    delete: (id: string) => {
+      cache.delete(id);
+    },
   };
 }
 

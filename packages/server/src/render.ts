@@ -31,7 +31,7 @@ if (kind === "ai") {
         options: [
           "Donald Trump" as const,
           "Joe Biden" as const,
-          "Obama" as const,
+          "Barack Obama" as const,
           "stop" as const,
         ],
       }
