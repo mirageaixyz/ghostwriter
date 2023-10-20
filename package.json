@@ -8,7 +8,8 @@
     "start": "dotenv -- pnpm --filter server start",
     "produce": "dotenv -- pnpm --filter server produce",
     "draft": "dotenv -- pnpm --filter actor produce",
-    "direct": "dotenv -- pnpm --filter video direct"
+    "direct": "dotenv -- pnpm --filter video direct",
+    "preview:ios": "dotenv -- pnpm --filter app preview:ios"
   },
   "devDependencies": {
     "prettier": "^2.7.1",
