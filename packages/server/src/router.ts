@@ -7,18 +7,19 @@ import { produce } from "./production/index.js";
 
 export const t = initTRPC.context<Context>().create();
 
-export const appRouter = t.router({
-  hello: t.procedure.query(() => "Hello"),
+export const router = t.router({
+  vibecheck: t.procedure.query(() => "Hello"),
 
-  status: t.procedure
+  getContent: t.procedure
     .input(z.string())
     .query(({ input }) => content.get(input) ?? null),
 
-  content: t.procedure.input(Metadata).mutation(async ({ input }) => {
+  createContent: t.procedure.input(Metadata).mutation(async ({ input }) => {
     const id = nid();
     produce(id, input);
 
     return {
+      id,
       uri: `/out/${id}.mp4`,
     };
   }),

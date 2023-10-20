@@ -6,12 +6,16 @@
       "dependsOn": ["^build"],
       "outputs": ["out/**", "dist/**"]
     },
+    "dev": {
+      "dependsOn": ["^build"],
+      "cache": false
+    },
     "edit": {
-      "dependsOn": ["^produce"],
+      "dependsOn": ["^build"],
       "cache": false
     },
     "draft": {
-      "dependsOn": ["^produce"],
+      "dependsOn": ["^build"],
       "cache": false
     }
   }

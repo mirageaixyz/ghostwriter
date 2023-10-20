@@ -17,21 +17,31 @@ export async function produce(
     },
   });
 
-  const metadata = await takeCut(input);
+  try {
+    const metadata = await takeCut(input);
 
-  if (!metadata) {
-    console.log("Production failed");
-    return;
+    if (!metadata) {
+      console.log("Production failed");
+      return;
+    }
+
+    await fixInPost(metadata, `./out/${id}.mp4`);
+    content.set(id, {
+      id,
+      createdAt: date.toISOString(),
+      video: {
+        status: "done",
+        uri,
+      },
+    });
+  } catch (e) {
+    content.set(id, {
+      id,
+      createdAt: date.toISOString(),
+      video: {
+        status: "failed",
+        reason: `${e}`,
+      },
+    });
   }
-
-  await fixInPost(metadata, `./out/${id}.mp4`);
-
-  content.set(id, {
-    id,
-    createdAt: date.toISOString(),
-    video: {
-      status: "done",
-      uri,
-    },
-  });
 }

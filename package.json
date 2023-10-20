@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "FORCE_COLOR=1 dotenv -- turbo run build",
+    "dev": "FORCE_COLOR=1 dotenv -- turbo run dev",
     "start": "dotenv -- pnpm --filter server start",
     "produce": "dotenv -- pnpm --filter server produce",
     "draft": "dotenv -- pnpm --filter actor produce",

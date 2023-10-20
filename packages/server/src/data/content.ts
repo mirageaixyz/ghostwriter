@@ -16,6 +16,7 @@ export const Content = z.object({
   createdAt: z.string().datetime(),
   video: z.discriminatedUnion("status", [
     z.object({ status: z.literal("pending") }),
+    z.object({ status: z.literal("failed"), reason: z.string() }),
     z.object({ status: z.literal("done"), uri: z.string() }),
   ]),
 });
