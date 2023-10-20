@@ -19,7 +19,7 @@ pnpm install
 **Get a base video for the content**
 
 ```bash
-cp video.mp4 packages/actor/video.mp4
+cp video.mp4 ./video.mp4
 ```
 
 An example of a base video is [here](https://drive.google.com/file/d/1p5y0J-pm7C6toOgg0AHiFidzsq0KTlQc/view?usp=sharing).

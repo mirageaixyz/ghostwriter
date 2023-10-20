@@ -1,12 +1,26 @@
 import consola from "consola";
 import { readFile, writeFile } from "node:fs/promises";
-import OpenAI from "openai";
 import { input } from "../env.js";
 import { generateScript } from "./ai.js";
 
-export async function script(kind: "ai" | "custom") {
-  const raw = await writeScript(kind);
-  return raw.choices.map(({ message }) => parseScript(message.content ?? ""));
+export type Script = {
+  name: string;
+  content: string;
+}[];
+
+export type Option =
+  | { kind: "ai"; topic: string }
+  | { kind: "custom"; script: Script };
+
+export async function script(option: Option) {
+  if (option.kind === "custom") {
+    return option.script;
+  }
+
+  const raw = await generateScript(option.topic);
+  return raw.choices.map(({ message }) =>
+    parseScript(message.content ?? "")
+  )[0];
 }
 
 export async function meta(
@@ -36,28 +50,15 @@ export async function meta(
   );
 
   await writeFile("out/metadata.json", JSON.stringify(metadata, null, 2));
+
+  return metadata;
 }
 
-async function writeScript(kind: "custom" | "ai") {
+export async function writeScript(kind: "custom" | "ai") {
   if (kind === "custom") {
     const res = await readFile("./custom.txt");
     const script = res.toString();
-    return {
-      model: "gpt-3.5-turbo",
-      choices: [
-        {
-          index: 0,
-          finish_reason: "stop",
-          message: {
-            role: "assistant",
-            content: script,
-          },
-        },
-      ],
-      created: 0,
-      id: "aaaaaaaaa",
-      object: "ok",
-    } satisfies OpenAI.Chat.Completions.ChatCompletion;
+    return parseScript(script);
   }
 
   const topic = await input({
@@ -69,7 +70,9 @@ async function writeScript(kind: "custom" | "ai") {
   });
 
   const res = await generateScript(topic);
-  return res;
+  return res.choices.map(({ message }) =>
+    parseScript(message.content ?? "")
+  )[0];
 }
 
 function parseScript(script: string) {

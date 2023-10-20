@@ -1,7 +1,7 @@
 import { consola } from "consola";
 import { mkdir } from "node:fs/promises";
 import { input } from "./env.js";
-import { meta, script } from "./script/writer.js";
+import { meta, writeScript } from "./script/writer.js";
 import { direct } from "./video/record.js";
 import { combineVoices, voice } from "./voice/speech.js";
 
@@ -31,43 +31,41 @@ async function main() {
 
   await mkdir("out", { recursive: true });
 
-  const res = await script(option as any as "ai" | "custom");
+  const script = await writeScript(option as any as "ai" | "custom");
 
   consola.success(`Generated script! (Took ${Date.now() - start}ms)`);
 
-  for (const script of res) {
-    const startVoice = Date.now();
-    consola.start("Generating voices...");
+  const startVoice = Date.now();
+  consola.start("Generating voices...");
 
-    const times = [];
+  const times = [];
 
-    for (const i in script) {
-      const { name, content } = script[i];
-      const res = await voice(name, content, `out/temp-${i}.mp3`);
-      if (res.status != "ok") {
-        consola.error(`Failed to generate voice for ${name}`);
-        return;
-      }
-      times.push(res.time);
+  for (const i in script) {
+    const { name, content } = script[i];
+    const res = await voice(name, content, `out/temp-${i}.mp3`);
+    if (res.status != "ok") {
+      consola.error(`Failed to generate voice for ${name}`);
+      return;
     }
-    consola.success(`Generated voices! (Took ${Date.now() - startVoice}ms)`);
-
-    await meta(option as any, script, times);
-
-    const startCombining = Date.now();
-    consola.start("Combining voices...");
-
-    await combineVoices(script);
-
-    consola.success(`Combined voices! (Took ${Date.now() - startCombining}ms)`);
-
-    const startVideo = Date.now();
-    consola.start("Generating video...");
-
-    await direct();
-
-    consola.success(`Generated video! (Took ${Date.now() - startVideo}ms)`);
+    times.push(res.time);
   }
+  consola.success(`Generated voices! (Took ${Date.now() - startVoice}ms)`);
+
+  await meta(option as any, script, times);
+
+  const startCombining = Date.now();
+  consola.start("Combining voices...");
+
+  await combineVoices(script);
+
+  consola.success(`Combined voices! (Took ${Date.now() - startCombining}ms)`);
+
+  const startVideo = Date.now();
+  consola.start("Generating video...");
+
+  await direct();
+
+  consola.success(`Generated video! (Took ${Date.now() - startVideo}ms)`);
   consola.info(`All process in total took ${Date.now() - start}ms`);
 }
 
