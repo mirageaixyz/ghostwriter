@@ -21,6 +21,9 @@ export default {
           950: "#08261f",
         },
       },
+      data: {
+        active: "active=true",
+      },
     },
   },
   plugins: [],

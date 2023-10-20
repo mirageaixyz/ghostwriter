@@ -3,15 +3,15 @@ import { Link } from "react-router-dom";
 const Login = () => {
   return (
     <div className="h-full flex flex-col items-center justify-center space-y-3">
-      <h1 className="font-bold text-white ">Login</h1>
+      <h1 className="font-bold text-black">Login</h1>
 
       <div className="flex flex-col">
-        <label className="text-white/60">Email</label>
+        <label className="text-black/60">Email</label>
         <input />
       </div>
 
       <div className="flex flex-col">
-        <label className="text-white/60">Password</label>
+        <label className="text-black/60">Password</label>
         <input />
       </div>
 

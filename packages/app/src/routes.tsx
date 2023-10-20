@@ -4,7 +4,7 @@ import { FC } from "react";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { queryClient, trpc, trpcClient } from "./lib/trpc";
 import Nav from "./routes/app/nav";
-import Create from "./routes/app/presidents/page";
+import PresidentsPage from "./routes/app/presidents/page";
 import Login from "./routes/login/page";
 import LandingPage from "./routes/page";
 
@@ -28,7 +28,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/app/presidents",
-        element: <Create />,
+        element: <PresidentsPage />,
       },
     ],
   },
