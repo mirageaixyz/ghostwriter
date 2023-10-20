@@ -4,10 +4,6 @@ const Login = () => {
     return (
         <div className="h-full flex flex-col items-center justify-center space-y-3">
 
-            <div>
-
-            </div>
-            
             <h1 className="font-bold">Login</h1>
 
             <div className="flex flex-col">
