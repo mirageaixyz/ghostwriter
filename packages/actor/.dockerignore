@@ -34,3 +34,9 @@ yarn-error.log*
 
 # random
 waitlist.ts
+
+custom.txt
+script.txt
+video.mp4
+
+dist/

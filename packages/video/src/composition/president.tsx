@@ -31,7 +31,12 @@ export const PresidentComposition: React.FC<Props> = ({script}) => {
 	return (
 		<AbsoluteFill className="bg-gray-100 items-center justify-center">
 			<Video
-				className="absolute bottom-0 -translate-y-[37.5%] scale-[1.75] z-20"
+				style={{
+					position: 'absolute',
+					bottom: 0,
+					transform: 'translateY(-37.5%) scale(1.75)',
+					zIndex: 20,
+				}}
 				src={staticFile('/out/output.mp4')}
 			/>
 			{lines.map((line, i) => (
