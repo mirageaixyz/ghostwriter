@@ -1,8 +1,8 @@
 import { initTRPC } from "@trpc/server";
+import { ulid } from "ulid";
 import { z } from "zod";
 import { Context } from "./context.js";
 import { Metadata, content } from "./data/content.js";
-import { nid } from "./data/memory.js";
 import { produce } from "./production/index.js";
 
 export const t = initTRPC.context<Context>().create();
@@ -17,7 +17,7 @@ export const router = t.router({
     .query(({ input }) => content.get(input) ?? null),
 
   newContent: t.procedure.input(Metadata).mutation(async ({ input }) => {
-    const id = nid();
+    const id = ulid();
     produce(id, input);
 
     return {

@@ -15,6 +15,7 @@ export async function produce(
     video: {
       status: "pending",
     },
+    kind: input.kind,
   });
 
   try {
@@ -32,7 +33,9 @@ export async function produce(
       video: {
         status: "done",
         uri,
+        script: metadata.script,
       },
+      kind: input.kind,
     });
   } catch (e) {
     content.set(id, {
@@ -42,6 +45,7 @@ export async function produce(
         status: "failed",
         reason: `${e}`,
       },
+      kind: input.kind,
     });
   }
 }

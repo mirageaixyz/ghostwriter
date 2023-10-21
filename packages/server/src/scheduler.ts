@@ -9,12 +9,24 @@ cron.schedule("0 0 * * *", async () => {
   consola.info(`Deleting ${videos.length} videos`);
 
   for (const video of videos) {
-    const isDone = video.video.status === "done";
     const path = `./out/${video.id}.mp4`;
     const date = new Date(video.createdAt);
-    if (isDone && date.getTime() < Date.now() - 1000 * 60 * 60 * 24 * 2) {
+    if (
+      video.video.status === "done" &&
+      date.getTime() < Date.now() - 1000 * 60 * 60 * 24 * 2
+    ) {
       await unlink(path);
-      content.delete(video.id);
+      content.set(video.id, {
+        ...video,
+        video: {
+          ...video.video,
+          status: "stale",
+        },
+      });
     }
   }
+});
+
+cron.schedule("* * * * *", async () => {
+  consola.info("Generating mock data");
 });
