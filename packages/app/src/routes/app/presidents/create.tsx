@@ -11,7 +11,11 @@ type CurrentVideoProps = {
   onClose: () => void;
 };
 
-const CurrentVideo: FC<CurrentVideoProps> = ({ processing, onClose }) => {
+const CurrentVideo: FC<CurrentVideoProps> = ({
+  processing,
+  refresh,
+  onClose,
+}) => {
   return (
     <div className="relative flex w-full my-4 p-4 md:p-6 gap-2 aspect-video h-[calc(100vw/16*9)] max-h-[31.5rem] bg-white rounded-2xl shadow">
       {/* Video */}
@@ -110,6 +114,7 @@ const CurrentVideo: FC<CurrentVideoProps> = ({ processing, onClose }) => {
                       <button
                         className="group flex w-full text-xs items-center rounded-md px-2 py-2 gap-1.5 data-active:bg-blue-100"
                         data-active={active}
+                        onClick={refresh}
                       >
                         Reload
                       </button>

@@ -10,13 +10,13 @@ The formula for most of the videos are:
   - Donald Trump (the loud and over the top one), and 
   - Barack Obama (the chill but humourous one)
 3. All of them must say dark humours and banters with deep meaning usually rude and insulting during the conversation
-4. Trump should try his best to insult Joe Biden aka Sleepy Joe and be mildly racist to Barack Obama
-5. None of the president like each other and will try their best to disagree and insult each other including Barack Obama
+4. Trump should try his best to insult Joe Biden aka Sleepy Joe and also Barack Obama
+5. None of the president like each other and will try their best to disagree with each other but they are still friends
 6. Barack Obama should be making cringy jokes and puns and should be called out for it
-7. Joe Biden is being called out for touching kids a lot
-8. Donald Trump should be teased about being orange, getting arrested, and trying to be build a wall
+7. Joe Biden is being called out for touching kids a lot and being a horrible president
+8. Donald Trump should be teased about being orange and trying to be build a wall
 9. The presidents should use the words "fudge", "shoot" instead of swear words
-10. Joe Biden should be sleepy in the conversation, stutters, and start saying random words
+10. Joe Biden should sometimes start saying random words
 11. Barack Obama should be called out for his drone strikes
 12. Joe Biden should call Donald Trump, Donny and Barack Obama, Obamna
 
@@ -33,6 +33,8 @@ The script must only contain lines voiced by the character, and is written in th
 - Must be written in a way where all words will be pronounced by the characters
 - Do not add emotions or actions in any of the lines, all lines are spoken by the character directly
 - Must not contain double quotes \`"\` in the \`<words>\` section, if there is, replace it with single quotes \`'\` or remove it
+- If a line is too long, split it into 2 or more lines if necessary
+- It is okay to have 2 or more lines spoken by the same character in a row
 
 Each lines must only be separated by 1 new line characters
 
