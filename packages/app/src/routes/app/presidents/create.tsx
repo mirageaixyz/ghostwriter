@@ -1,6 +1,6 @@
 import { AppInputs, AppOutputs } from "@ghostwriter/server";
 import { Dialog, Menu, Transition } from "@headlessui/react";
-import { Fragment, useMemo, useState, type FC } from "react";
+import { Fragment, useEffect, useMemo, useState, type FC } from "react";
 import { useSearchParams } from "react-router-dom";
 import { relativeTime } from "../../../lib/time/relative";
 import { trpc } from "../../../lib/trpc";
@@ -94,13 +94,21 @@ const CurrentVideo: FC<CurrentVideoProps> = ({
                         className="group flex w-full text-xs items-center rounded-md px-2 py-2 gap-1.5 data-active:bg-vista-100 disabled:opacity-50 disabled:cursor-not-allowed"
                         data-active={active}
                         disabled={processing.video.status !== "done"}
-                        onClick={() => {
+                        onClick={async () => {
                           if (processing.video.status !== "done") return;
-                          window.open(
-                            `http://localhost:4000${processing.video.uri}`,
-                            "_blank",
-                            "noopener,noreferrer"
+                          const data = await fetch(
+                            `http://localhost:4000${processing.video.uri}`
                           );
+                          const blob = await data.blob();
+                          const url = URL.createObjectURL(blob);
+
+                          const a = document.createElement("a");
+                          a.href = url;
+                          a.download = "video.mp4";
+                          document.body.appendChild(a);
+                          a.click();
+                          document.body.removeChild(a);
+                          a.remove();
                         }}
                       >
                         Download
@@ -225,6 +233,17 @@ const Create: FC = () => {
 
   const hasVideo = useMemo(() => !!id, [id]);
 
+  useEffect(() => {
+    if (!hasVideo) return;
+    const interval = setInterval(() => {
+      refetch();
+    }, 1000 * 60);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [refetch]);
+
   return (
     <>
       {!hasVideo ? (
@@ -247,9 +266,9 @@ const Create: FC = () => {
             refetch();
           }}
           onClose={() => {
+            searchParams.delete("id");
             setSearchParams({
               ...searchParams,
-              id: undefined,
             });
           }}
         />

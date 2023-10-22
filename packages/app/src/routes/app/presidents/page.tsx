@@ -1,9 +1,11 @@
 import { type FC } from "react";
+import { useSearchParams } from "react-router-dom";
 import { relativeTime } from "../../../lib/time/relative";
 import { trpc } from "../../../lib/trpc";
 import Create from "./create";
 
 const PresidentsPage: FC = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const { data: videos, isLoading: isVideosLoading } = trpc.contents.useQuery();
 
   return (
@@ -44,9 +46,12 @@ const PresidentsPage: FC = () => {
                     )
                 )
                 .map(({ id, createdAt, video, kind }) => (
-                  <div
+                  <button
                     key={id}
                     className="relative w-full flex items-center p-3 gap-2 group rounded-lg hover:bg-vista-50"
+                    onClick={() => {
+                      setSearchParams({ ...searchParams, id });
+                    }}
                   >
                     <div
                       className="w-8 h-8 p-2 rounded-md data-[kind=ai]:bg-vista-400 data-[kind=custom]:bg-purple-400"
@@ -58,11 +63,11 @@ const PresidentsPage: FC = () => {
                       />
                     </div>
                     {kind === "ai" ? (
-                      <span className="text-sm w-[16ch] md:w-[24ch] truncate text-vista-600">
+                      <span className="text-sm text-start w-[16ch] md:w-[24ch] truncate text-vista-600">
                         AI generated script
                       </span>
                     ) : (
-                      <span className="text-sm w-[16ch] md:w-[24ch] truncate text-purple-600">
+                      <span className="text-sm text-start w-[16ch] md:w-[24ch] truncate text-purple-600">
                         Custom script
                       </span>
                     )}
@@ -78,7 +83,7 @@ const PresidentsPage: FC = () => {
                     <span className="text-xs text-black/60 ml-auto">
                       {relativeTime(new Date(createdAt))}
                     </span>
-                  </div>
+                  </button>
                 ))}
             </div>
           </div>

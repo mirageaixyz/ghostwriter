@@ -29,6 +29,7 @@ The video format are:
 
 The script must only contain lines voiced by the character, and is written in the following format:
 - \`<name>:"<words>"\`, i.e. \`Joe Biden:"Hello!"\`
+- Name must be one of the following: Joe Biden, Donald Trump, Barack Obama
 - The \`<words>\` is words that each character will be speaking from directly and must be wrapped in between double quotes \`"\`
 - Must be written in a way where all words will be pronounced by the characters
 - Do not add emotions or actions in any of the lines, all lines are spoken by the character directly
