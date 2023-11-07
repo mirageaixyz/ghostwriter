@@ -203,9 +203,6 @@ importers:
 
   packages/video:
     dependencies:
-      '@ghostwriter/actor':
-        specifier: workspace:*
-        version: link:../actor
       '@remotion/bundler':
         specifier: 4.0.50
         version: 4.0.50(react-dom@18.2.0)(react@18.2.0)

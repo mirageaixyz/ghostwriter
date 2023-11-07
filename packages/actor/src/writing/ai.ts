@@ -1,3 +1,4 @@
+import consola from "consola";
 import OpenAI from "openai";
 import { z } from "zod";
 import { env } from "../env.js";
@@ -18,6 +19,7 @@ export const Line = z.discriminatedUnion("kind", [
     kind: z.literal("spoken"),
     name: z.string(),
     content: z.string(),
+    emotion: z.enum(["calm", "angry", "laugh", "sad", "happy", "surprised"]),
   }),
 ]);
 
@@ -70,29 +72,30 @@ export async function script(
     throw new Error("Cannot create script, try again later!");
   }
 
-  try {
-    const raw = JSON.parse(content);
-    const script = await Script.parseAsync(raw);
-    return {
-      ...script,
-      lines: script.lines.map((line) =>
-        line.kind === "narrator"
-          ? line
-          : {
-              ...line,
-              content: line.content
-                .replace("fudge", "fuck")
-                .replace("fudging", "fucking")
-                .replace("Fudge", "Fuck")
-                .replace("Fudging", "Fucking")
-                .replace("sheet", "shit")
-                .replace("sheeting", "shitting")
-                .replace("Sheet", "Shit")
-                .replace("Sheeting", "Shitting"),
-            }
-      ),
-    };
-  } catch (_) {
-    throw new Error("Fail parsing script, try again later!");
+  const raw = JSON.parse(content);
+  const maybeScript = await Script.safeParseAsync(raw);
+  if (!maybeScript.success) {
+    consola.error(raw);
+    throw new Error("Yea, something went wrong in the writing department :(");
   }
+  const script = maybeScript.data;
+  return {
+    ...script,
+    lines: script.lines.map((line) =>
+      line.kind === "narrator"
+        ? line
+        : {
+            ...line,
+            content: line.content
+              .replace("fudge", "fuck")
+              .replace("fudging", "fucking")
+              .replace("Fudge", "Fuck")
+              .replace("Fudging", "Fucking")
+              .replace("sheet", "shit")
+              .replace("sheeting", "shitting")
+              .replace("Sheet", "Shit")
+              .replace("Sheeting", "Shitting"),
+          }
+    ),
+  };
 }

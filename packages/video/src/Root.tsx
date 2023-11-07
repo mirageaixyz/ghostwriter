@@ -11,7 +11,7 @@ import './style.css';
 export const RemotionRoot: React.FC = () => {
 	const [handle] = useState(() => delayRender());
 	const [duration, setDuration] = useState(1);
-	const [script] = useState<Script>([]);
+	const [script, setScript] = useState<Script>([]);
 
 	useEffect(() => {
 		async function fetchMetadata() {
@@ -20,6 +20,7 @@ export const RemotionRoot: React.FC = () => {
 			);
 
 			setDuration(Math.round(durationInSeconds * 30));
+			setScript([]);
 		}
 
 		fetchMetadata()

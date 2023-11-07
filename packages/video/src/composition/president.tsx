@@ -3,6 +3,7 @@ import {AbsoluteFill, Sequence, Video, staticFile} from 'remotion';
 import {z} from 'zod';
 import Avatar from '../components/avatar';
 import Caption from '../components/caption';
+import NarratedAvatar from '../components/narrator-avatar';
 import {Script} from '../metadata';
 
 export type Props = z.infer<typeof Props>;
@@ -13,9 +14,26 @@ export const Props = z.object({
 export const PresidentComposition: React.FC<Props> = ({script}) => {
 	const lines = useMemo(() => {
 		let duration = 0;
-		return script.map((line) => {
+		return script.map((line, i) => {
 			const time = duration;
 			duration += line.time;
+
+			if (line.kind === 'narrator') {
+				const prev = script.at(i - 1);
+				const next = script.at(i + 1);
+				const showing =
+					prev?.kind === 'spoken'
+						? {name: prev.name, emotion: prev.emotion}
+						: next?.kind === 'spoken'
+						? {name: next.name, emotion: next.emotion}
+						: {name: 'Joe Biden', emotion: 'calm'};
+
+				return {
+					...line,
+					showing,
+					from: time,
+				};
+			}
 
 			return {
 				...line,
@@ -47,7 +65,10 @@ export const PresidentComposition: React.FC<Props> = ({script}) => {
 							from={line.from * 30}
 							durationInFrames={line.time * 30}
 						>
-							<div className="w-full absolute top-0 z-10 -translate-y-[10%] bg-black" />
+							<NarratedAvatar
+								name={line.showing.name}
+								emotion={line.showing.emotion}
+							/>
 						</Sequence>
 					);
 				}
@@ -57,18 +78,21 @@ export const PresidentComposition: React.FC<Props> = ({script}) => {
 						from={line.from * 30}
 						durationInFrames={line.time * 30}
 					>
-						<Avatar name={line.name} face={line.face ?? 0} />
+						<Avatar name={line.name} emotion={line.emotion} />
 					</Sequence>
 				);
 			})}
 			{lastLine ? (
 				lastLine.kind === 'narrator' ? (
 					<Sequence from={lastLine.from * 30 + lastLine.time * 30}>
-						<div className="w-full absolute top-0 z-10 -translate-y-[10%] bg-black" />
+						<NarratedAvatar
+							name={lastLine.showing.name}
+							emotion={lastLine.showing.emotion}
+						/>
 					</Sequence>
 				) : (
 					<Sequence from={lastLine.from * 30 + lastLine.time * 30}>
-						<Avatar name={lastLine.name} face={lastLine.face ?? 0} />
+						<Avatar name={lastLine.name} emotion={lastLine.emotion} />
 					</Sequence>
 				)
 			) : null}

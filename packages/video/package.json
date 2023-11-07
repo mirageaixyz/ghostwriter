@@ -21,8 +21,7 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "remotion": "4.0.50",
-    "zod": "^3.21.4",
-    "@ghostwriter/actor": "workspace:*"
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@remotion/eslint-config": "4.0.50",

@@ -51,6 +51,7 @@ export const voices = {
 } satisfies Record<string, Voice>;
 
 export function findVoice(name: string) {
+  if (name === "narrator") return voices.biden;
   const definedVoices = Object.values(voices);
   const matches = definedVoices.filter((v) => v.name === name);
   return matches.at(0);

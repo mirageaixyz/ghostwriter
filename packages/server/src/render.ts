@@ -44,7 +44,12 @@ if (kind === "ai") {
       type: "text",
     });
 
-    lines.push({ kind: "spoken" as const, name: person, content });
+    lines.push({
+      kind: "spoken" as const,
+      name: person,
+      content,
+      emotion: "calm",
+    });
   }
 
   await produce("result", {

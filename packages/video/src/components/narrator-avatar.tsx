@@ -8,7 +8,7 @@ export const Props = z.object({
 	emotion: z.string(),
 });
 
-const Avatar: React.FC<Props> = ({name, emotion}) => {
+const NarratedAvatar: React.FC<Props> = ({name, emotion}) => {
 	const persona = useMemo(() => {
 		if (!name.includes(' ')) return name;
 		return name.includes('Biden')
@@ -20,10 +20,10 @@ const Avatar: React.FC<Props> = ({name, emotion}) => {
 
 	return (
 		<Img
-			className="w-full absolute top-0 z-10 -translate-y-[10%]"
+			className="w-full absolute top-0 z-10 -translate-y-[10%] grayscale"
 			src={staticFile(`${persona}/${emotion}.png`)}
 		/>
 	);
 };
 
-export default Avatar;
+export default NarratedAvatar;
