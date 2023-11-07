@@ -1,7 +1,6 @@
 import { AppInputs, AppOutputs } from "@ghostwriter/server";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useMemo, useState, type FC } from "react";
-import { useSearchParams } from "react-router-dom";
 import { relativeTime } from "../../../lib/time/relative";
 import { trpc } from "../../../lib/trpc";
 
@@ -213,12 +212,11 @@ const CurrentVideo: FC<CurrentVideoProps> = ({
 };
 
 const Create: FC = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const id = useMemo(() => searchParams.get("id"), [searchParams]);
+  const [id, setId] = useState<string>();
   const [isOpen, setIsOpen] = useState(false);
   const [option, setOption] = useState<AppInputs["newContent"]>({
     kind: "ai",
-    idea: "",
+    topic: "",
   });
   const utils = trpc.useUtils();
 
@@ -234,12 +232,9 @@ const Create: FC = () => {
       setIsOpen(false);
       setOption({
         kind: "ai",
-        idea: "",
+        topic: "",
       });
-      setSearchParams({
-        ...searchParams,
-        id,
-      });
+      setId(id);
     },
   });
 
@@ -278,10 +273,7 @@ const Create: FC = () => {
             refetch();
           }}
           onClose={() => {
-            searchParams.delete("id");
-            setSearchParams({
-              ...searchParams,
-            });
+            setId(undefined);
           }}
         />
       ) : (
@@ -400,11 +392,11 @@ const Create: FC = () => {
                     <textarea
                       placeholder="Write a idea or story..."
                       className="mt-3 w-full outline-none font-normal placeholder-black/50 min-h-[9rem]"
-                      value={option.idea}
+                      value={option.topic}
                       onChange={(e) => {
                         setOption({
                           ...option,
-                          idea: e.target.value,
+                          topic: e.target.value,
                         });
                       }}
                     ></textarea>

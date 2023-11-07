@@ -33,13 +33,8 @@ export const presets = {
         description: "Joe should call Barack as Obamna",
       },
       {
-        personas: [
-          personas.biden.name,
-          personas.trump.name,
-          personas.obama.name,
-        ],
-        description:
-          "Joe should be called out for touching kids by everyone including himself",
+        personas: [personas.biden.name],
+        description: "Joe should be called out for touching kids",
       },
       {
         personas: [

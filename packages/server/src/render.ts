@@ -20,7 +20,7 @@ if (kind === "ai") {
 
   await produce("result", {
     kind,
-    idea: topic || "cats",
+    topic: topic || "cats",
   });
 } else {
   const lines = [] as Line[];

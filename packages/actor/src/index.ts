@@ -7,7 +7,7 @@ import { script } from "./writing/ai.js";
 import { meta } from "./writing/script.js";
 
 async function main() {
-  const idea = await consola.prompt("Give a topic / idea", {
+  const topic = await consola.prompt("Give a topic / idea", {
     type: "text",
   });
 
@@ -16,7 +16,7 @@ async function main() {
 
   await mkdir("out", { recursive: true });
 
-  const draft = await script({ kind: "ai", idea });
+  const draft = await script({ kind: "ai", topic });
 
   consola.success(`Generated script! (Took ${secondsFrom(start)}s)`);
 
