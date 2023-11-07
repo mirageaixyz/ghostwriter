@@ -1,51 +1,26 @@
-import { Link } from "react-router-dom";
+import Prompt from "./prompt";
 
 const LandingPage = () => {
   return (
     <div className="flex flex-col w-full min-h-[100dvh] bg-gradient-to-t from-vista-400/25 to-transparent">
-      <nav className="sticky top-0 flex items-center pb-4 pt-6 px-8 md:px-16 w-full gap-12 bg-white/40 backdrop-blur-xl">
-        <span className="font-cal text-xl text-black">ghostwriter</span>
-
-        <div className="hidden md:flex items-center gap-10 mt-1">
-          <Link to="/pricing" className="text-black">
-            Pricing
-          </Link>
-          <Link to="/pricing" className="text-black">
-            Docs
-          </Link>
-          <Link to="/pricing" className="text-black">
-            Blog
-          </Link>
+      <nav className="sticky top-0 flex items-center py-4 px-8 w-full gap-12 bg-white/40 backdrop-blur-xl">
+        <div className="flex items-center justify-center gap-2">
+          <img className="w-5 h-5" src="/ai.svg" />
+          <span className="font-cal text-lg text-black">ghostwriter</span>
+          <span className="flex items-center justify-center px-2 py-0.5 rounded-full bg-purple-200 text-purple-900 text-xs">
+            alpha
+          </span>
         </div>
-        <Link
-          to="/login"
-          className="ml-auto relative group flex items-center justify-center px-3 py-1.5 rounded-lg bg-vista-500"
-        >
-          <span className="absolute w-full h-full group-hover:bg-black/20 transition-all rounded-md" />
-          <span className="relative text-sm md:text-base text-white">
-            Login
-          </span>
-        </Link>
-      </nav>
-      <section className="flex flex-col items-center justify-start pt-[40%] md:pt-[10%] flex-1 w-full h-full">
-        <h1 className="font-medium text-black text-3xl sm:text-4xl md:text-7xl max-w-[900px] text-center [text-wrap:balance] font-cal">
-          One Click Away from Becoming a Viral Sensation
-        </h1>
 
-        <span className="text-black/90 sm:text-lg md:text-xl my-12 max-w-[900px] text-center [text-wrap:balance]">
-          Empowering the new wave of creators, this app harnesses the latest in
-          AI technology for seamless and efficient content production
-        </span>
-        <Link
-          to="/login"
-          className="relative group flex items-center justify-center px-4 md:px-6 py-2 md:py-3 rounded-md 
-          bg-gradient-to-r from-vista-500 to-blue-400 border-2 border-vista-400"
-        >
-          <span className="absolute w-full h-full group-hover:bg-black/20 transition-all rounded-md" />
-          <span className="relative text-lg md:text-xl text-white">
-            Get Started
-          </span>
-        </Link>
+        <div className="ml-auto flex items-center justify-center">
+          <img
+            className="w-9 h-9 rounded-lg hover:border-2 border-vista-400 transition-all"
+            src="https://api.dicebear.com/7.x/thumbs/svg?seed=Mittens"
+          />
+        </div>
+      </nav>
+      <section className="flex flex-col items-center justify-center flex-1 w-full h-full">
+        <Prompt />
       </section>
     </div>
   );
