@@ -169,18 +169,30 @@ const CurrentVideo: FC<CurrentVideoProps> = ({
         {processing.video.status === "done" ||
         processing.video.status === "stale" ? (
           <div className="flex flex-col gap-2 text-sm max-h-full overflow-scroll">
-            {processing.video.script.map(({ name, content }, i) => (
-              <div
-                key={`${name}-line-${i}`}
-                className="flex items-center gap-1 text-xs"
-              >
-                <img
-                  className="w-4 h-4 rounded-full"
-                  src={`/presidents/${name}.png`}
-                />
-                <span className="ml-1 text-black/60">{content}</span>
-              </div>
-            ))}
+            {processing.video.script.map((line, i) => {
+              if (line.kind === "narrator") {
+                return (
+                  <div
+                    key={`narrator-line-${i}`}
+                    className="flex items-center gap-1 text-xs"
+                  >
+                    <span className="ml-1 text-black/40">({line.text})</span>
+                  </div>
+                );
+              }
+              return (
+                <div
+                  key={`${line.name}-line-${i}`}
+                  className="flex items-center gap-1 text-xs"
+                >
+                  <img
+                    className="w-4 h-4 rounded-full"
+                    src={`/presidents/${line.name}.png`}
+                  />
+                  <span className="ml-1 text-black/60">{line.content}</span>
+                </div>
+              );
+            })}
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center gap-6 text-sm h-full">
@@ -206,7 +218,7 @@ const Create: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [option, setOption] = useState<AppInputs["newContent"]>({
     kind: "ai",
-    topic: "",
+    idea: "",
   });
   const utils = trpc.useUtils();
 
@@ -222,7 +234,7 @@ const Create: FC = () => {
       setIsOpen(false);
       setOption({
         kind: "ai",
-        topic: "",
+        idea: "",
       });
       setSearchParams({
         ...searchParams,
@@ -386,13 +398,13 @@ const Create: FC = () => {
                   {/* Textarea for AI geneated video */}
                   {option.kind === "ai" && (
                     <textarea
-                      placeholder="Write a topic or story..."
+                      placeholder="Write a idea or story..."
                       className="mt-3 w-full outline-none font-normal placeholder-black/50 min-h-[9rem]"
-                      value={option.topic}
+                      value={option.idea}
                       onChange={(e) => {
                         setOption({
                           ...option,
-                          topic: e.target.value,
+                          idea: e.target.value,
                         });
                       }}
                     ></textarea>
