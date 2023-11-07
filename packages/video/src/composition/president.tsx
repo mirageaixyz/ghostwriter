@@ -39,19 +39,38 @@ export const PresidentComposition: React.FC<Props> = ({script}) => {
 				}}
 				src={staticFile('/out/output.mp4')}
 			/>
-			{lines.map((line, i) => (
-				<Sequence
-					key={`face-${i}`}
-					from={line.from * 30}
-					durationInFrames={line.time * 30}
-				>
-					<Avatar name={line.name} face={line.face} />
-				</Sequence>
-			))}
+			{lines.map((line, i) => {
+				if (line.kind === 'narrator') {
+					return (
+						<Sequence
+							key={`face-${i}`}
+							from={line.from * 30}
+							durationInFrames={line.time * 30}
+						>
+							<div className="w-full absolute top-0 z-10 -translate-y-[10%] bg-black" />
+						</Sequence>
+					);
+				}
+				return (
+					<Sequence
+						key={`face-${i}`}
+						from={line.from * 30}
+						durationInFrames={line.time * 30}
+					>
+						<Avatar name={line.name} face={line.face ?? 0} />
+					</Sequence>
+				);
+			})}
 			{lastLine ? (
-				<Sequence from={lastLine.from * 30 + lastLine.time * 30}>
-					<Avatar name={lastLine.name} face={lastLine.face} />
-				</Sequence>
+				lastLine.kind === 'narrator' ? (
+					<Sequence from={lastLine.from * 30 + lastLine.time * 30}>
+						<div className="w-full absolute top-0 z-10 -translate-y-[10%] bg-black" />
+					</Sequence>
+				) : (
+					<Sequence from={lastLine.from * 30 + lastLine.time * 30}>
+						<Avatar name={lastLine.name} face={lastLine.face ?? 0} />
+					</Sequence>
+				)
 			) : null}
 			{lines.map((line, i) => (
 				<Sequence
@@ -59,7 +78,10 @@ export const PresidentComposition: React.FC<Props> = ({script}) => {
 					from={line.from * 30}
 					durationInFrames={line.time * 30}
 				>
-					<Caption text={line.content} durationInFrames={line.time * 30} />
+					<Caption
+						text={line.kind === 'narrator' ? line.text : line.content}
+						durationInFrames={line.time * 30}
+					/>
 				</Sequence>
 			))}
 		</AbsoluteFill>

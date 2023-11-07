@@ -1,22 +1,6 @@
+import { Line } from "@ghostwriter/actor";
 import { z } from "zod";
 import { memory } from "./memory.js";
-
-export type Script = z.infer<typeof Script>;
-export const Script = z.array(
-  z.object({
-    name: z.string(),
-    content: z.string(),
-  })
-);
-
-export type Metadata = z.infer<typeof Metadata>;
-export const Metadata = z.discriminatedUnion("kind", [
-  z.object({ kind: z.literal("ai"), topic: z.string() }),
-  z.object({
-    kind: z.literal("custom"),
-    script: Script,
-  }),
-]);
 
 export type Content = z.infer<typeof Content>;
 export const Content = z.object({
@@ -25,8 +9,12 @@ export const Content = z.object({
   video: z.discriminatedUnion("status", [
     z.object({ status: z.literal("pending") }),
     z.object({ status: z.literal("failed"), reason: z.string() }),
-    z.object({ status: z.literal("done"), uri: z.string(), script: Script }),
-    z.object({ status: z.literal("stale"), script: Script }),
+    z.object({
+      status: z.literal("done"),
+      uri: z.string(),
+      script: Line.array(),
+    }),
+    z.object({ status: z.literal("stale"), script: Line.array() }),
   ]),
   kind: z.literal("ai").or(z.literal("custom")),
 });

@@ -11,13 +11,13 @@ export const Props = z.object({
 const Avatar: React.FC<Props> = ({name, face}) => {
 	const persona = useMemo(() => {
 		if (!name.includes(' ')) return name;
-
 		return name.includes('Biden')
 			? 'biden'
 			: name.includes('Trump')
 			? 'trump'
 			: 'obama';
 	}, [name]);
+
 	return (
 		<Img
 			className="w-full absolute top-0 z-10 -translate-y-[10%]"

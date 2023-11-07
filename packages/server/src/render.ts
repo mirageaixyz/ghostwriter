@@ -1,3 +1,4 @@
+import type { Line } from "@ghostwriter/actor";
 import consola from "consola";
 import { produce } from "./production/index.js";
 
@@ -19,10 +20,10 @@ if (kind === "ai") {
 
   await produce("result", {
     kind,
-    topic: topic || "cats",
+    idea: topic || "cats",
   });
 } else {
-  const script = [] as { name: string; content: string }[];
+  const lines = [] as Line[];
   while (true) {
     const person = await consola.prompt(
       "Who do you want to speak? (or stop to end) ",
@@ -42,11 +43,12 @@ if (kind === "ai") {
     const content = await consola.prompt("What do you want them to say? ", {
       type: "text",
     });
-    script.push({ name: person, content });
+
+    lines.push({ kind: "spoken" as const, name: person, content });
   }
 
   await produce("result", {
     kind,
-    script,
+    script: { lines },
   });
 }
