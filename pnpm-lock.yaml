@@ -33,11 +33,14 @@ importers:
         specifier: ^2.1.2
         version: 2.1.2
       openai:
-        specifier: ^4.11.1
-        version: 4.12.4
+        specifier: ^4.16.1
+        version: 4.16.1
       valibot:
         specifier: ^0.18.0
         version: 0.18.0
+      zod:
+        specifier: ^3.21.4
+        version: 3.22.4
     devDependencies:
       '@types/fluent-ffmpeg':
         specifier: ^2.1.22
@@ -200,6 +203,9 @@ importers:
 
   packages/video:
     dependencies:
+      '@ghostwriter/actor':
+        specifier: workspace:*
+        version: link:../actor
       '@remotion/bundler':
         specifier: 4.0.50
         version: 4.0.50(react-dom@18.2.0)(react@18.2.0)
@@ -4236,8 +4242,8 @@ packages:
       is-docker: 2.2.1
       is-wsl: 2.2.0
 
-  /openai@4.12.4:
-    resolution: {integrity: sha512-oPNVJkpgxDUKF6WGGdHEZh5m/kjmYxS2Y1q7YVFCkvKUGthb8OGYRGCFBRPq5CQJezifzABTZRlVYnXLd6L4vQ==}
+  /openai@4.16.1:
+    resolution: {integrity: sha512-Gr+uqUN1ICSk6VhrX64E+zL7skjI1TgPr/XUN+ZQuNLLOvx15+XZulx/lSW4wFEAQzgjBDlMBbBeikguGIjiMg==}
     hasBin: true
     dependencies:
       '@types/node': 18.18.5

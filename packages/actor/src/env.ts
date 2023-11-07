@@ -1,17 +1,17 @@
-import * as v from "valibot";
+import { z } from "zod";
 
-export type Env = v.Output<typeof Env>;
-export const Env = v.object({
-  OPENAI_KEY: v.string(),
-  ELEVENLABS_KEY: v.string(),
-  VOICE_TRUMP: v.string(),
-  VOICE_BIDEN: v.string(),
-  VOICE_OBAMA: v.string(),
-  OPTION: v.optional(v.union([v.literal("ai"), v.literal("custom")])),
-  TOPIC: v.optional(v.string()),
+export type Env = z.infer<typeof Env>;
+export const Env = z.object({
+  OPENAI_KEY: z.string(),
+  ELEVENLABS_KEY: z.string(),
+  VOICE_TRUMP: z.string(),
+  VOICE_BIDEN: z.string(),
+  VOICE_OBAMA: z.string(),
+  OPTION: z.optional(z.union([z.literal("ai"), z.literal("custom")])),
+  TOPIC: z.optional(z.string()),
 });
 
-export const env = v.parse(Env, process.env);
+export const env = Env.parse(process.env);
 
 export async function input<T>(args: {
   fn: () => T;

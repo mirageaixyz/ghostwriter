@@ -1,20 +1,21 @@
 import consola from "consola";
 import { mkdir } from "node:fs/promises";
-import { meta, script } from "./script/writer.js";
-import { direct } from "./video/record.js";
-import { combineVoices, voice } from "./voice/speech.js";
+import { direct } from "./video/direct.js";
+import { audiofile, composeVoices, voiceAct } from "./voiceacting/ai.js";
+import { Option, script } from "./writing/ai.js";
+import { meta } from "./writing/script.js";
 
 export function secondsFrom(time: number) {
   return Math.round(((Date.now() - time) / 1000) * 100) / 100;
 }
 
-export async function produce(...args: Parameters<typeof script>) {
+export async function produce(option: Option) {
   const start = Date.now();
   consola.start(`Generating script...`);
 
   await mkdir("out", { recursive: true });
 
-  const draft = await script(...args);
+  const draft = await script(option);
 
   consola.success(`Generated script! (Took ${secondsFrom(start)}s)`);
 
@@ -23,9 +24,11 @@ export async function produce(...args: Parameters<typeof script>) {
 
   const times = [];
 
-  for (const i in draft) {
-    const { name, content } = draft[i];
-    const res = await voice(name, content, `out/temp-${i}.mp3`);
+  for (let i = 0; i < draft.lines.length; i++) {
+    const line = draft.lines[i];
+    const name = line.kind === "narrator" ? line.kind : line.name;
+    const content = line.kind === "narrator" ? line.text : line.content;
+    const res = await voiceAct(name, content, audiofile(i));
     if (res.status != "ok") {
       consola.error(`Failed to generate voice for ${name}`);
       return;
@@ -34,12 +37,12 @@ export async function produce(...args: Parameters<typeof script>) {
   }
   consola.success(`Generated voices! (Took ${secondsFrom(startVoice)}s)`);
 
-  const metadata = await meta(args[0].kind, draft, times);
+  const metadata = await meta(option.kind, draft.lines, times);
 
   const startCombining = Date.now();
   consola.start("Combining voices...");
 
-  await combineVoices(draft);
+  await composeVoices(draft.lines);
 
   consola.success(`Combined voices! (Took ${secondsFrom(startCombining)}s)`);
 
@@ -53,3 +56,9 @@ export async function produce(...args: Parameters<typeof script>) {
 
   return metadata;
 }
+
+export { Voice } from "./voiceacting/voice.js";
+export { Line, Option, Script } from "./writing/ai.js";
+export { Persona } from "./writing/persona.js";
+export { Relationship } from "./writing/relationship.js";
+export { PostLine } from "./writing/script.js";
