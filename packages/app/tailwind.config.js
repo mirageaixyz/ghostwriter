@@ -24,6 +24,45 @@ export default {
       data: {
         active: "active=true",
       },
+      animation: {
+        "slide-from-bottom":
+          "slide-from-bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards",
+        "slide-fade-down":
+          "slide-fade-down 400ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "slide-fade-left":
+          "slide-fade-left 400ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "slide-fade-up": "slide-fade-up 400ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "slide-fade-right":
+          "slide-fade-dorightwn 400ms cubic-bezier(0.16, 1, 0.3, 1)",
+      },
+      keyframes: {
+        "slide-fade-down": {
+          from: { opacity: 0, transform: "translateY(-2px)" },
+          to: { opacity: 1, transform: "translateY(0)" },
+        },
+        "slide-fade-left": {
+          from: { opacity: 0, transform: "translateX(2px)" },
+          to: { opacity: 1, transform: "translateX(0)" },
+        },
+        "slide-fade-up": {
+          from: { opacity: 0, transform: "translateY(2px)" },
+          to: { opacity: 1, transform: "translateY(0)" },
+        },
+        "slide-fade-right": {
+          from: { opacity: 0, transform: "translateX(-2px)" },
+          to: { opacity: 1, transform: "translateX(0)" },
+        },
+        "slide-from-bottom": {
+          "0%": {
+            transform: "translateY(2rem)",
+            opacity: 0,
+          },
+          "100%": {
+            transform: "translateY(0)",
+            opacity: 1,
+          },
+        },
+      },
     },
   },
   plugins: [],

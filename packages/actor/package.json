@@ -30,7 +30,6 @@
     "elevenlabs-node": "^1.2.0",
     "fluent-ffmpeg": "^2.1.2",
     "openai": "^4.16.1",
-    "valibot": "^0.18.0",
     "zod": "^3.21.4"
   },
   "tsup": {

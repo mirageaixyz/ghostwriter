@@ -1,22 +1,17 @@
-import { Line } from "@ghostwriter/actor";
 import { z } from "zod";
 import { memory } from "./memory.js";
 
-export type Content = z.infer<typeof Content>;
-export const Content = z.object({
+export type Production = z.infer<typeof Production>;
+export const Production = z.object({
   id: z.string(),
-  createdAt: z.string().datetime(),
+  createdAt: z.string(),
   video: z.discriminatedUnion("status", [
-    z.object({ status: z.literal("pending") }),
-    z.object({ status: z.literal("failed"), reason: z.string() }),
-    z.object({
-      status: z.literal("done"),
-      uri: z.string(),
-      script: Line.array(),
-    }),
-    z.object({ status: z.literal("stale"), script: Line.array() }),
+    z.object({ status: z.literal("writing") }),
+    z.object({ status: z.literal("acting") }),
+    z.object({ status: z.literal("editing") }),
+    z.object({ status: z.literal("error"), reason: z.string() }),
+    z.object({ status: z.literal("done"), uri: z.string() }),
   ]),
-  kind: z.literal("ai").or(z.literal("custom")),
 });
 
-export const content = memory(Content);
+export const productions = memory(Production);

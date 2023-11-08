@@ -1,6 +1,9 @@
+import { useState } from "react";
 import Prompt from "./prompt";
+import Video from "./video";
 
 const LandingPage = () => {
+  const [id, setId] = useState<string>();
   return (
     <div className="flex flex-col w-full min-h-[100dvh] bg-gradient-to-t from-vista-400/25 to-transparent">
       <nav className="sticky top-0 flex items-center py-4 px-8 w-full gap-12 bg-white/40 backdrop-blur-xl">
@@ -19,8 +22,9 @@ const LandingPage = () => {
           />
         </div>
       </nav>
-      <section className="flex flex-col items-center justify-center flex-1 w-full h-full">
-        <Prompt />
+      <section className="relative flex flex-col items-center justify-center flex-1 w-full h-full">
+        {id && <Video key={id} id={id} reset={() => setId(undefined)} />}
+        <Prompt id={id} setId={setId} />
       </section>
     </div>
   );

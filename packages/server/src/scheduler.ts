@@ -1,10 +1,10 @@
 import consola from "consola";
 import cron from "node-cron";
 import { unlink } from "node:fs/promises";
-import { content } from "./data/content.js";
+import { productions } from "./data/content.js";
 
 cron.schedule("0 0 * * *", async () => {
-  const videos = content.all();
+  const videos = productions.all();
 
   consola.info(`Deleting ${videos.length} videos`);
 
@@ -16,13 +16,7 @@ cron.schedule("0 0 * * *", async () => {
       date.getTime() < Date.now() - 1000 * 60 * 60 * 24 * 2
     ) {
       await unlink(path);
-      content.set(video.id, {
-        ...video,
-        video: {
-          ...video.video,
-          status: "stale",
-        },
-      });
+      productions.delete(video.id);
     }
   }
 });

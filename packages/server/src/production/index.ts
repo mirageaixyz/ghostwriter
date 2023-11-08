@@ -1,4 +1,5 @@
-import { content } from "../data/content.js";
+import consola from "consola";
+import { productions } from "../data/content.js";
 import { takeCut } from "./actor.js";
 import { fixInPost } from "./video.js";
 
@@ -7,45 +8,68 @@ export async function produce(
   input: Parameters<typeof takeCut>[0]
 ) {
   const uri = `/out/${id}.mp4`;
-  const date = new Date();
+  const createdAt = new Date().toISOString();
 
-  content.set(id, {
+  productions.set(id, {
     id,
-    createdAt: date.toISOString(),
+    createdAt,
     video: {
-      status: "pending",
+      status: "writing",
     },
-    kind: input.kind,
   });
 
   try {
-    const metadata = await takeCut(input);
+    const metadata = await takeCut(input, {
+      onWriteFinish() {
+        productions.set(id, {
+          id,
+          createdAt,
+          video: {
+            status: "acting",
+          },
+        });
+      },
+    });
 
     if (!metadata) {
-      console.log("Production failed");
+      consola.error("Production failed");
+      productions.set(id, {
+        id,
+        createdAt,
+        video: {
+          status: "error",
+          reason: "Failed to record lines or write script",
+        },
+      });
+
       return;
     }
 
-    await fixInPost(metadata, `./out/${id}.mp4`);
-    content.set(id, {
+    productions.set(id, {
       id,
-      createdAt: date.toISOString(),
+      createdAt,
+      video: {
+        status: "editing",
+      },
+    });
+
+    await fixInPost(metadata, `./out/${id}.mp4`);
+    productions.set(id, {
+      id,
+      createdAt,
       video: {
         status: "done",
         uri,
-        script: metadata.script,
       },
-      kind: input.kind,
     });
   } catch (e) {
-    content.set(id, {
+    productions.set(id, {
       id,
-      createdAt: date.toISOString(),
+      createdAt,
       video: {
-        status: "failed",
+        status: "error",
         reason: `${e}`,
       },
-      kind: input.kind,
     });
   }
 }

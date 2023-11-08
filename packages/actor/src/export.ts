@@ -9,7 +9,15 @@ export function secondsFrom(time: number) {
   return Math.round(((Date.now() - time) / 1000) * 100) / 100;
 }
 
-export async function produce(option: Option) {
+type Callbacks = {
+  onWriteFinish?: () => void;
+  onRecordFinish?: () => void;
+};
+
+export async function produce(
+  option: Option,
+  { onWriteFinish, onRecordFinish }: Callbacks = {}
+) {
   const start = Date.now();
   consola.start(`Generating script...`);
 
@@ -21,6 +29,8 @@ export async function produce(option: Option) {
 
   const startVoice = Date.now();
   consola.start("Generating voices...");
+
+  onWriteFinish?.();
 
   const times = [];
 
@@ -36,6 +46,8 @@ export async function produce(option: Option) {
     times.push(res.time);
   }
   consola.success(`Generated voices! (Took ${secondsFrom(startVoice)}s)`);
+
+  onRecordFinish?.();
 
   const metadata = await meta(option.kind, draft.lines, times);
 
