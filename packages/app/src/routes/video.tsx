@@ -1,6 +1,6 @@
 import { useEffect, useRef, type FC } from "react";
 import ConfettiExplosion from "react-confetti-explosion";
-import { trpc } from "../lib/trpc";
+import { baseUrl, trpc } from "../lib/trpc";
 
 type VideoProps = {
   id: string;
@@ -13,6 +13,7 @@ const Video: FC<VideoProps> = ({ id, reset }) => {
     keepPreviousData: true,
   });
   const state = data?.video.status ?? "editing";
+  const uri = data?.video.status === "done" ? data.video.uri : undefined;
   const ref = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
@@ -86,10 +87,7 @@ const Video: FC<VideoProps> = ({ id, reset }) => {
             ref={ref}
             className="flex-shrink-0 aspect-[9/16] w-[280px] md:w-[300px] rounded-xl"
           >
-            <source
-              src={`http://localhost:4000/out/${id}.mp4`}
-              type="video/mp4"
-            />
+            <source src={`${baseUrl}${uri}`} type="video/mp4" />
           </video>
 
           <div className="w-full flex items-center justify-center gap-2 mt-2 px-4">

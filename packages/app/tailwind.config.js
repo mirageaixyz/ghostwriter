@@ -34,8 +34,13 @@ export default {
         "slide-fade-up": "slide-fade-up 400ms cubic-bezier(0.16, 1, 0.3, 1)",
         "slide-fade-right":
           "slide-fade-dorightwn 400ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "fade-in": "fade-in 400ms cubic-bezier(0.16, 1, 0.3, 1)",
       },
       keyframes: {
+        "fade-in": {
+          from: { opacity: 0 },
+          to: { opacity: 1 },
+        },
         "slide-fade-down": {
           from: { opacity: 0, transform: "translateY(-2px)" },
           to: { opacity: 1, transform: "translateY(0)" },

@@ -1,8 +1,10 @@
+import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { useEffect, useState, type FC } from "react";
 import { trpc } from "../lib/trpc";
 
 const HEADLINES = ["video", "tiktok", "post", "tweet", "short"] as const;
+const isdev = import.meta.env.DEV;
 
 type Headline = {
   word: string;
@@ -16,6 +18,7 @@ type PromptProps = {
 };
 
 const Prompt: FC<PromptProps> = ({ id, setId }) => {
+  const [waitlistDialogOpen, setWaitlistDialogOpen] = useState(false);
   const utils = trpc.useUtils();
 
   const { mutate, isLoading } = trpc.newContent.useMutation({
@@ -75,6 +78,37 @@ const Prompt: FC<PromptProps> = ({ id, setId }) => {
 
   return (
     <>
+      <AlertDialog.Root
+        open={waitlistDialogOpen}
+        onOpenChange={setWaitlistDialogOpen}
+      >
+        <AlertDialog.Portal>
+          <AlertDialog.Overlay className="bg-black/60 fixed inset-0 z-40 data-[state=open]:animate-fade-in" />
+          <AlertDialog.Content
+            className="data-[state=open]:animate-slide-from-bottom 
+            fixed max-h-[85vh] w-[90vw] max-w-[400px] z-50
+            rounded-[6px] bg-white p-[25px] shadow focus:outline-none
+            flex flex-col items-center justify-center gap-6 px-10"
+          >
+            <img className="w-20 h-20" src="/graphics/construction.svg" />
+            <div className="flex flex-col items-center justify-center gap-3">
+              <h1 className="font-semibold text-xl md:text-2xl">
+                Waitlist will be open soon
+              </h1>
+              <span className="text-center [text-wrap:balance] text-sm text-black/75">
+                You'll be able to sign up for ghostwriter soon. We're currently
+                still in the early stages of the development and will be kicking
+                off the private alpha soon.
+              </span>
+            </div>
+            <AlertDialog.Cancel asChild>
+              <button className="py-2 px-4 rounded-md bg-vista-500 text-base text-white cursor-pointer">
+                Close
+              </button>
+            </AlertDialog.Cancel>
+          </AlertDialog.Content>
+        </AlertDialog.Portal>
+      </AlertDialog.Root>
       <div
         className="absolute text-vista-500/10 flex flex-col items-center font-bold font-cal mb-[8rem] select-none text-7xl md:text-[12rem] leading-none max-w-[80vw] text-center [text-wrap:balance] gap-3
         data-[hascontent=true]:hidden"
@@ -132,8 +166,15 @@ const Prompt: FC<PromptProps> = ({ id, setId }) => {
         <span className="w-px h-6 bg-black/10 mx-1.5" />
         <button
           className="p-2 rounded-full bg-vista-500 text-base cursor-pointer"
-          disabled={text.length <= 0 || isLoading}
-          onClick={() => mutate({ kind: "ai", topic: text })}
+          disabled={isLoading}
+          onClick={() => {
+            if (!isdev) {
+              setWaitlistDialogOpen(true);
+              return;
+            }
+            if (text.length <= 0) return;
+            mutate({ kind: "ai", topic: text });
+          }}
         >
           <svg
             className="w-4 h-4"
