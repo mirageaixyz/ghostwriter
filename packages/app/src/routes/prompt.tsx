@@ -78,6 +78,7 @@ const Prompt: FC<PromptProps> = ({ id, setId }) => {
 
   return (
     <>
+      {/* Only for private alpha */}
       <AlertDialog.Root
         open={waitlistDialogOpen}
         onOpenChange={setWaitlistDialogOpen}
@@ -109,6 +110,8 @@ const Prompt: FC<PromptProps> = ({ id, setId }) => {
           </AlertDialog.Content>
         </AlertDialog.Portal>
       </AlertDialog.Root>
+
+      {/* Background text */}
       <div
         className="absolute text-vista-500/10 flex flex-col items-center font-bold font-cal mb-[8rem] select-none text-7xl md:text-[12rem] leading-none max-w-[80vw] text-center [text-wrap:balance] gap-3
         data-[hascontent=true]:hidden"
@@ -117,6 +120,8 @@ const Prompt: FC<PromptProps> = ({ id, setId }) => {
         <span>Generative</span>
         <span className="min-h-[4.5rem] md:min-h-[12rem]">{headline.word}</span>
       </div>
+
+      {/* Prompt input box */}
       <div
         className="fixed md:bottom-[50dvh] z-40 flex items-center justify-center gap-1 py-2 px-3 rounded-xl bg-white shadow-lg
         bottom-8 md:data-[hascontent=true]:bottom-10 data-[hascontent=true]:scale-95 transition-all duration-500"
