@@ -4,7 +4,7 @@ import { useEffect, useState, type FC } from "react";
 import { trpc } from "../lib/trpc";
 
 const HEADLINES = ["video", "tiktok", "post", "tweet", "short"] as const;
-const isdev = import.meta.env.DEV;
+const deployed = import.meta.env.VITE_DEPLOYED;
 
 type Headline = {
   word: string;
@@ -173,7 +173,7 @@ const Prompt: FC<PromptProps> = ({ id, setId }) => {
           className="p-2 rounded-full bg-vista-500 text-base cursor-pointer"
           disabled={isLoading}
           onClick={() => {
-            if (!isdev) {
+            if (!!deployed) {
               setWaitlistDialogOpen(true);
               return;
             }
