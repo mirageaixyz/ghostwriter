@@ -91,7 +91,7 @@ const Prompt: FC<PromptProps> = ({ id, setId }) => {
         <DropdownMenu.Root>
           <DropdownMenu.Trigger asChild>
             <img
-              className="w-8 h-8 rounded-full"
+              className="w-8 h-8 rounded-full cursor-pointer"
               src="/graphics/presidents.svg"
             />
           </DropdownMenu.Trigger>
@@ -102,7 +102,7 @@ const Prompt: FC<PromptProps> = ({ id, setId }) => {
               data-[side=bottom]:animate-slide-fade-down data-[side=left]:animate-slide-fade-left"
               sideOffset={5}
             >
-              <DropdownMenu.Item className="group rounded flex items-center gap-2 py-1 px-2 select-none outline-none hover:bg-vista-400 active:bg-vista-400 transition-all">
+              <DropdownMenu.Item className="group rounded flex items-center gap-2 py-1 px-2 select-none outline-none hover:bg-vista-400 active:bg-vista-400 transition-all cursor-pointer">
                 <img
                   className="w-5 h-5 rounded-full border border-white"
                   src="/graphics/presidents.svg"
@@ -131,8 +131,8 @@ const Prompt: FC<PromptProps> = ({ id, setId }) => {
         />
         <span className="w-px h-6 bg-black/10 mx-1.5" />
         <button
-          className="p-2 rounded-full bg-vista-500 text-base"
-          disabled={isLoading}
+          className="p-2 rounded-full bg-vista-500 text-base cursor-pointer"
+          disabled={text.length <= 0 || isLoading}
           onClick={() => mutate({ kind: "ai", topic: text })}
         >
           <svg
