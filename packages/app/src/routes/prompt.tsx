@@ -1,10 +1,11 @@
-import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { useEffect, useState, type FC } from "react";
+import { useMe } from "../lib/context/me";
 import { trpc } from "../lib/trpc";
+import LoginDialog from "./login-dialog";
+import WaitingDialog from "./waiting-dialog";
 
 const HEADLINES = ["video", "tiktok", "post", "tweet", "short"] as const;
-const deployed = import.meta.env.VITE_DEPLOYED;
 
 type Headline = {
   word: string;
@@ -18,7 +19,9 @@ type PromptProps = {
 };
 
 const Prompt: FC<PromptProps> = ({ id, setId }) => {
-  const [waitlistDialogOpen, setWaitlistDialogOpen] = useState(false);
+  const me = useMe();
+  const [isLoginDialogOpen, setLoginDialogOpen] = useState(false);
+  const [isWaitingDialogOpen, setWaitingDialogOpen] = useState(false);
   const utils = trpc.useUtils();
 
   const { mutate, isLoading } = trpc.newContent.useMutation({
@@ -79,37 +82,11 @@ const Prompt: FC<PromptProps> = ({ id, setId }) => {
   return (
     <>
       {/* Only for private alpha */}
-      <AlertDialog.Root
-        open={waitlistDialogOpen}
-        onOpenChange={setWaitlistDialogOpen}
-      >
-        <AlertDialog.Portal>
-          <AlertDialog.Overlay className="bg-black/60 fixed inset-0 z-40 data-[state=open]:animate-fade-in" />
-          <AlertDialog.Content
-            className="data-[state=open]:animate-slide-from-bottom 
-            fixed max-h-[85vh] w-[90vw] max-w-[400px] z-50
-            rounded-[6px] bg-white p-[25px] shadow focus:outline-none
-            flex flex-col items-center justify-center gap-6 px-10"
-          >
-            <img className="w-20 h-20" src="/graphics/construction.svg" />
-            <div className="flex flex-col items-center justify-center gap-3">
-              <h1 className="font-semibold text-xl md:text-2xl">
-                Waitlist will be open soon
-              </h1>
-              <span className="text-center [text-wrap:balance] text-sm text-black/75">
-                You'll be able to sign up for ghostwriter soon. We're currently
-                still in the early stages of the development and will be kicking
-                off the private alpha soon.
-              </span>
-            </div>
-            <AlertDialog.Cancel asChild>
-              <button className="py-2 px-4 rounded-md bg-vista-500 text-base text-white cursor-pointer">
-                Close
-              </button>
-            </AlertDialog.Cancel>
-          </AlertDialog.Content>
-        </AlertDialog.Portal>
-      </AlertDialog.Root>
+      <LoginDialog open={isLoginDialogOpen} onOpenChange={setLoginDialogOpen} />
+      <WaitingDialog
+        open={isWaitingDialogOpen}
+        onOpenChange={setWaitingDialogOpen}
+      />
 
       {/* Background text */}
       <div
@@ -171,12 +148,17 @@ const Prompt: FC<PromptProps> = ({ id, setId }) => {
         <span className="w-px h-6 bg-black/10 mx-1.5" />
         <button
           className="p-2 rounded-full bg-vista-500 text-base cursor-pointer"
-          disabled={isLoading}
+          disabled={me.isUserLoading || isLoading}
           onClick={() => {
-            if (!!deployed) {
-              setWaitlistDialogOpen(true);
+            if (!me.isUserLoading && !me.user) {
+              setLoginDialogOpen(true);
               return;
             }
+            if (!me.isUserLoading && me.user?.waitlist !== "alpha") {
+              setWaitingDialogOpen(true);
+              return;
+            }
+
             if (text.length <= 0) return;
             mutate({ kind: "ai", topic: text });
           }}

@@ -12,7 +12,7 @@ const Video: FC<VideoProps> = ({ id, reset }) => {
     staleTime: 1000,
     keepPreviousData: true,
   });
-  const state = data?.video.status ?? "editing";
+  const state = data?.video.status ?? "writing";
   const uri = data?.video.status === "done" ? data.video.uri : undefined;
   const ref = useRef<HTMLVideoElement | null>(null);
 

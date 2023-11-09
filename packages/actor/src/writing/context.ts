@@ -33,7 +33,7 @@ The script must only contain lines voiced by the character or a narrator, and is
   - If a line is too long, split it into 2 or more lines if necessary
   - It is okay to have 2 or more lines spoken by the same character in a row
   - The \`<emotion>\` must only be either calm, angry, laugh, sad, happy, surprised
-  - Narrator lines must show up in between 2 characters lines and appear rarely
+  - Narrator lines should be rare and mostly in between character lines
 
 Each lines must only be separated by 1 new line characters
 

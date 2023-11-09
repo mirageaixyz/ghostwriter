@@ -5,6 +5,7 @@ import consola from "consola";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { createContext } from "./context.js";
+import { oauth } from "./lib/oauth.js";
 import { router } from "./router.js";
 import "./scheduler.js";
 
@@ -18,7 +19,8 @@ app.use("/*", async (c, next) => {
 app.use(
   "/*",
   cors({
-    allowMethods: ["GET", "POST", "OPTIONS"],
+    allowMethods: ["GET", "POST", "PUT", "OPTIONS"],
+    credentials: true,
     origin: [
       "http://localhost:3000",
       "http://localhost:4000",
@@ -34,6 +36,8 @@ app.use(
     createContext,
   })
 );
+
+app.route("/oauth", oauth);
 
 app.get(
   "/out/*",

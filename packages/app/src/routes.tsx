@@ -3,6 +3,7 @@ import "cal-sans";
 import { FC } from "react";
 import { Toaster } from "react-hot-toast";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { MeProvider } from "./lib/context/me";
 import { queryClient, trpc, trpcClient } from "./lib/trpc";
 import LandingPage from "./routes/page";
 
@@ -18,7 +19,9 @@ const EntryPoint: FC = () => {
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
         <Toaster />
-        <RouterProvider router={router} />
+        <MeProvider>
+          <RouterProvider router={router} />
+        </MeProvider>
       </QueryClientProvider>
     </trpc.Provider>
   );

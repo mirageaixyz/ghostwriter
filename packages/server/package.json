@@ -15,9 +15,10 @@
   },
   "devDependencies": {
     "@types/node": "^20.3.1",
-    "@types/workerpool": "^6.4.5",
-    "tsup": "^7.2.0",
     "@types/node-cron": "^3.0.10",
+    "@types/workerpool": "^6.4.5",
+    "@types/ws": "^8.5.9",
+    "tsup": "^7.2.0",
     "typescript": "^5.0.0"
   },
   "dependencies": {
@@ -25,14 +26,21 @@
     "@hono/node-server": "^1.2.0",
     "@hono/trpc-server": "^0.1.0",
     "@hono/zod-validator": "^0.1.9",
+    "@lucia-auth/adapter-postgresql": "^2.0.2",
+    "@lucia-auth/adapter-session-redis": "^2.1.1",
+    "@lucia-auth/oauth": "^3.4.0",
+    "@neondatabase/serverless": "^0.6.0",
     "@remotion/bundler": "4.0.50",
     "@remotion/renderer": "^4.0.50",
     "@remotion/tailwind": "4.0.50",
     "@trpc/server": "^10.33.0",
+    "@upstash/redis": "^1.24.3",
     "consola": "^3.1.0",
     "hono": "^3.8.1",
+    "lucia": "^2.7.3",
     "node-cron": "^3.0.2",
     "ulid": "^2.3.0",
+    "ws": "^8.14.2",
     "zod": "^3.21.4"
   },
   "tsup": {

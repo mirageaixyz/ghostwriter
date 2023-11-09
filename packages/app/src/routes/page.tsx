@@ -1,9 +1,11 @@
 import { useState } from "react";
+import Me from "./me";
 import Prompt from "./prompt";
 import Video from "./video";
 
 const LandingPage = () => {
   const [id, setId] = useState<string>();
+
   return (
     <div className="flex flex-col w-full min-h-[100dvh] bg-gradient-to-t from-vista-400/25 to-transparent">
       <nav className="sticky top-0 flex items-center py-4 px-8 w-full gap-12 bg-white/40 backdrop-blur-xl">
@@ -17,10 +19,7 @@ const LandingPage = () => {
         </div>
 
         <div className="ml-auto flex items-center justify-center">
-          <img
-            className="w-9 h-9 rounded-lg hover:border-2 border-vista-400 transition-all"
-            src="https://api.dicebear.com/7.x/thumbs/svg?seed=Mittens"
-          />
+          <Me />
         </div>
       </nav>
       <section className="relative flex flex-col items-center justify-center flex-1 w-full h-full">
