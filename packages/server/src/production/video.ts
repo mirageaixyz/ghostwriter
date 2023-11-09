@@ -43,6 +43,10 @@ export async function fixInPost(
     codec: "h264",
     outputLocation,
     inputProps,
+    chromiumOptions: {
+      enableMultiProcessOnLinux: true,
+      headless: true,
+    },
   });
 
   consola.success(

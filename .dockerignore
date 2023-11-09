@@ -36,5 +36,10 @@ yarn-error.log*
 
 # random
 waitlist.ts
-
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+**/public/output.mp4
 video.mp4

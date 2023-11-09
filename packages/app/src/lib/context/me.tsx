@@ -9,7 +9,9 @@ export type Me =
 export const MeContext = createContext<Me>({ isUserLoading: true });
 
 export const MeProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const { data: user, isLoading: isUserLoading } = trpc.me.useQuery();
+  const { data: user, isLoading: isUserLoading } = trpc.me.useQuery(undefined, {
+    keepPreviousData: true,
+  });
   const me = isUserLoading
     ? { isUserLoading }
     : { isUserLoading: false, user: user ?? null };
