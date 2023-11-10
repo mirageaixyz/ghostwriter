@@ -21,7 +21,7 @@ export async function produce(
   });
 
   try {
-    const metadata = await takeCut(input, {
+    const result = await takeCut(input, {
       onWriteFinish() {
         productions.set(id, {
           id,
@@ -33,7 +33,7 @@ export async function produce(
       },
     });
 
-    if (!metadata) {
+    if (!result) {
       consola.error("Production failed");
       productions.set(id, {
         id,
@@ -55,7 +55,7 @@ export async function produce(
       },
     });
 
-    await fixInPost(metadata, resolve(currentDir, `./out/${id}.mp4`));
+    await fixInPost(result, resolve(currentDir, `./out/${id}.mp4`));
     productions.set(id, {
       id,
       createdAt,

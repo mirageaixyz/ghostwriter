@@ -63,12 +63,12 @@ export async function produce(
   const startVideo = Date.now();
   consola.start("Generating base video...");
 
-  await direct();
+  const outputFilename = await direct();
 
   consola.success(`Generated base video! (Took ${secondsFrom(startVideo)}s)`);
   consola.info(`Script, voices, and base video in ${secondsFrom(start)}s`);
 
-  return metadata;
+  return { outputFilename, metadata };
 }
 
 export { actorDir, withOutDir } from "./lib/files.js";

@@ -1,7 +1,6 @@
 import {
   actorDir,
   secondsFrom,
-  withOutDir,
   type produce as takeCut,
 } from "@ghostwriter/actor";
 import { bundle } from "@remotion/bundler";
@@ -13,18 +12,18 @@ import { resolve } from "node:path";
 import { currentDir } from "../lib/files.js";
 
 export async function fixInPost(
-  metadata: NonNullable<Awaited<ReturnType<typeof takeCut>>>,
+  result: NonNullable<Awaited<ReturnType<typeof takeCut>>>,
   outputLocation: string
 ) {
   const start = Date.now();
 
   consola.start("Copying files...");
+  await mkdir(resolve(currentDir, "./out"), { recursive: true });
+  await mkdir(resolve(actorDir, "../video/public/out"), { recursive: true });
   await copyFile(
-    withOutDir("./output.mp4"),
+    result.outputFilename,
     resolve(actorDir, "../video/public/out/output.mp4")
   );
-
-  await mkdir(resolve(currentDir, "./out"), { recursive: true });
   consola.success(`Copied files! (Took ${secondsFrom(start)}s)`);
 
   const startBundle = Date.now();
@@ -37,7 +36,7 @@ export async function fixInPost(
   consola.success(`Bundled blueprint! (Took ${secondsFrom(startBundle)}s)`);
 
   const inputProps = {
-    script: metadata.script,
+    script: result.metadata.script,
   };
 
   const startRender = Date.now();

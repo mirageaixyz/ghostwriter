@@ -23,4 +23,6 @@ export async function direct() {
       .on("end", () => resolve())
       .save(withOutDir("./output.mp4"))
   );
+
+  return withOutDir("./output.mp4");
 }
