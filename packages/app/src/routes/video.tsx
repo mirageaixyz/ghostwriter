@@ -46,7 +46,7 @@ const Video: FC<VideoProps> = ({ id, reset }) => {
         <img
           key={`graphics-${state}`}
           className="w-24 aspect-square rounded-lg object-cover opacity-75 animate-slide-from-bottom"
-          src={`/graphics/${state}.svg`}
+          src={`/graphics/complex.svg`}
         />
 
         <span className="font-bold font-cal text-black/75 mt-3 mb-2">
