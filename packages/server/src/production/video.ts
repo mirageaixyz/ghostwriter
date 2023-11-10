@@ -1,5 +1,5 @@
 import {
-  __dirname,
+  actorDir,
   secondsFrom,
   withOutDir,
   type produce as takeCut,
@@ -8,8 +8,9 @@ import { bundle } from "@remotion/bundler";
 import { renderMedia, selectComposition } from "@remotion/renderer";
 import { enableTailwind } from "@remotion/tailwind";
 import consola from "consola";
-import { copyFile } from "node:fs/promises";
+import { copyFile, mkdir } from "node:fs/promises";
 import { resolve } from "node:path";
+import { currentDir } from "../lib/files.js";
 
 export async function fixInPost(
   metadata: NonNullable<Awaited<ReturnType<typeof takeCut>>>,
@@ -20,14 +21,16 @@ export async function fixInPost(
   consola.start("Copying files...");
   await copyFile(
     withOutDir("./output.mp4"),
-    resolve(__dirname, "../video/public/out/output.mp4")
+    resolve(actorDir, "../video/public/out/output.mp4")
   );
+
+  await mkdir(resolve(currentDir, "./out"), { recursive: true });
   consola.success(`Copied files! (Took ${secondsFrom(start)}s)`);
 
   const startBundle = Date.now();
   consola.start("Bundling blueprint...");
   const bundled = await bundle({
-    entryPoint: "../video/src/index.ts",
+    entryPoint: resolve(currentDir, "../video/src/index.ts"),
     webpackOverride: (currentConfiguration) =>
       enableTailwind(currentConfiguration),
   });

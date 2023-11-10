@@ -1,11 +1,9 @@
-import { __dirname } from "@ghostwriter/actor";
 import { serve } from "@hono/node-server";
 import { serveStatic } from "@hono/node-server/serve-static";
 import { trpcServer } from "@hono/trpc-server";
 import consola from "consola";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import { resolve } from "node:path";
 import { createContext } from "./context.js";
 import { env } from "./lib/env.js";
 import { oauth } from "./lib/oauth.js";
@@ -47,8 +45,10 @@ app.route("/oauth", oauth);
 app.get(
   "/out/*",
   serveStatic({
-    root: resolve(__dirname, "./"),
-    rewriteRequestPath: (path) => path.replace(/^\/out/, "/out"),
+    root: "./",
+    rewriteRequestPath: (path) => {
+      return path.replace(/^\/out/, "/out");
+    },
   })
 );
 

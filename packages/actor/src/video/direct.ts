@@ -1,6 +1,6 @@
 import ffmpeg from "fluent-ffmpeg";
 import { resolve as pathResolve } from "node:path";
-import { __dirname, withOutDir } from "../lib/files.js";
+import { actorDir, withOutDir } from "../lib/files.js";
 
 export async function direct() {
   const duration = await new Promise<number>((resolve) =>
@@ -11,7 +11,7 @@ export async function direct() {
 
   await new Promise<void>((resolve) =>
     ffmpeg()
-      .input(pathResolve(__dirname, "../../video.mp4"))
+      .input(pathResolve(actorDir, "../../video.mp4"))
       .input(withOutDir("./output.mp3"))
       .outputOptions([
         "-c:v copy",
