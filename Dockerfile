@@ -13,8 +13,6 @@ RUN apt-get install -y chromium
 RUN npm install -g turbo
 RUN npm install -g pnpm
 
-ENV NODE_ENV=production
-
 # Setup app
 COPY . .
 
@@ -23,9 +21,10 @@ RUN pnpm install
 
 RUN turbo run build --filter=@ghostwriter/server
 
-
 # Get some assets
 RUN curl https://one-time-link.netlify.app/video/mirage-vp9.mp4 -o video.mp4
+
+ENV NODE_ENV=production
 
 CMD [ "pnpm", "start" ]
 
