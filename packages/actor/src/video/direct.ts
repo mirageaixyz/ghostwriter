@@ -1,6 +1,6 @@
 import ffmpeg from "fluent-ffmpeg";
 import { resolve as pathResolve } from "node:path";
-import { withOutDir } from "../lib/files.js";
+import { __dirname, withOutDir } from "../lib/files.js";
 
 export async function direct() {
   const duration = await new Promise<number>((resolve) =>

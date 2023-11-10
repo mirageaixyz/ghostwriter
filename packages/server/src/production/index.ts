@@ -1,4 +1,4 @@
-import { withOutDir } from "@ghostwriter/actor";
+import { __dirname, withOutDir } from "@ghostwriter/actor";
 import consola from "consola";
 import { productions } from "../data/content.js";
 import { takeCut } from "./actor.js";

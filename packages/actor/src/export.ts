@@ -1,6 +1,7 @@
 import consola from "consola";
 import { mkdir } from "node:fs/promises";
 import { resolve } from "node:path";
+import { __dirname } from "./lib/files.js";
 import { direct } from "./video/direct.js";
 import { audiofile, composeVoices, voiceAct } from "./voiceacting/ai.js";
 import { Option, script } from "./writing/ai.js";
@@ -70,7 +71,7 @@ export async function produce(
   return metadata;
 }
 
-export { withOutDir } from "./lib/files.js";
+export { __dirname, withOutDir } from "./lib/files.js";
 export { Voice } from "./voiceacting/voice.js";
 export { Line, Option, Script } from "./writing/ai.js";
 export { Persona } from "./writing/persona.js";
