@@ -8,7 +8,7 @@ const LandingPage = () => {
 
   return (
     <div className="flex flex-col w-full min-h-[100dvh] bg-gradient-to-t from-vista-400/25 to-transparent">
-      <nav className="sticky top-0 flex items-center py-4 px-8 w-full gap-12 bg-white/40 backdrop-blur-xl">
+      <nav className="sticky top-0 flex items-center py-4 px-6 md:px-8 w-full gap-12 bg-white/40 backdrop-blur-xl">
         <div className="flex items-center justify-center gap-2">
           <img className="w-5 h-5" src="/ai.svg" />
           <span className="font-cal text-lg text-black">ghostwriter</span>

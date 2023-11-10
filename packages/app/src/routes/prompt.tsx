@@ -133,7 +133,7 @@ const Prompt: FC<PromptProps> = ({ id, setId }) => {
         <span className="w-px h-6 bg-black/10 mx-1.5" />
         <textarea
           maxLength={1000}
-          className="flex-[1_0_50%] min-w-[60vw] md:min-w-[350px] disabled:opacity-80 bg-transparent border-0 shadow-none resize-none outline-none ring-0 disabled:bg-transparent [scroll-padding-block:0.75rem] min-h-[20px] text-sm"
+          className="flex-[1_0_50%] min-w-[60vw] md:min-w-[400px] disabled:opacity-80 bg-transparent border-0 shadow-none resize-none outline-none ring-0 disabled:bg-transparent [scroll-padding-block:0.75rem] min-h-[20px] text-sm"
           placeholder="Joe Biden eats some ice cream..."
           value={text}
           onChange={(e) => {
