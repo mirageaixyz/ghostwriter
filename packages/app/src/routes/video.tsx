@@ -116,9 +116,7 @@ const Video: FC<VideoProps> = ({ id, reset }) => {
               className="bg-blue-500 rounded-full w-8 h-8 inline-flex items-center justify-center text-center"
               onClick={async () => {
                 if (!data || data.video.status !== "done") return;
-                const vid = await fetch(
-                  `http://localhost:4000${data.video.uri}`
-                );
+                const vid = await fetch(`${baseUrl}${data.video.uri}`);
                 const blob = await vid.blob();
                 const url = URL.createObjectURL(blob);
 
