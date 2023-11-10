@@ -5,6 +5,7 @@ import consola from "consola";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { createContext } from "./context.js";
+import { env } from "./lib/env.js";
 import { oauth } from "./lib/oauth.js";
 import { router } from "./router.js";
 import "./scheduler.js";
@@ -49,5 +50,5 @@ app.get(
 
 serve({
   fetch: app.fetch,
-  port: 4000,
+  port: env.PORT,
 });

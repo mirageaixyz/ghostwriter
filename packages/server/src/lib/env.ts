@@ -16,6 +16,7 @@ export const Env = z.object({
   UPSTASH_REDIS_REST_TOKEN: z.string(),
   GITHUB_CLIENT_ID: z.string(),
   GITHUB_CLIENT_SECRET: z.string(),
+  PORT: z.coerce.number().default(4000),
 });
 
 export const env = Env.parse(process.env);
