@@ -1,5 +1,6 @@
 import { useEffect, useRef, type FC } from "react";
 import ConfettiExplosion from "react-confetti-explosion";
+import toast from "react-hot-toast";
 import { baseUrl, trpc } from "../lib/trpc";
 
 type VideoProps = {
@@ -20,6 +21,10 @@ const Video: FC<VideoProps> = ({ id, reset }) => {
     if (state === "done") return;
 
     const interval = setInterval(() => {
+      toast("Updating...", {
+        icon: "🤞",
+        duration: 1000,
+      });
       refetch();
     }, 1000 * 30);
 
@@ -30,9 +35,33 @@ const Video: FC<VideoProps> = ({ id, reset }) => {
 
   useEffect(() => {
     if (data === null) {
+      toast.error("Video not found");
       reset();
     }
   }, [data]);
+
+  if (state === "error") {
+    return (
+      <div className="relative flex flex-col items-center justify-center mb-20">
+        <img
+          key={`graphics-${state}`}
+          className="w-24 aspect-square rounded-lg object-cover opacity-75 animate-slide-from-bottom"
+          src={`/graphics/${state}.svg`}
+        />
+
+        <span className="font-bold font-cal text-black/75 mt-3 mb-2">
+          {"Something went wrong"}
+        </span>
+        <div className="flex items-center justify-center gap-2 w-full min-h-[1.25rem]">
+          <span className="text-xs  text-black ">
+            {data?.video?.status === "error"
+              ? data.video.reason
+              : "Unknown error"}
+          </span>
+        </div>
+      </div>
+    );
+  }
 
   if (state !== "done") {
     return (

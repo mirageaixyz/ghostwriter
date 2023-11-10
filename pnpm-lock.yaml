@@ -102,6 +102,9 @@ importers:
       react-router-dom:
         specifier: ^6.17.0
         version: 6.17.0(react-dom@18.2.0)(react@18.2.0)
+      zod:
+        specifier: ^3.21.4
+        version: 3.22.4
     devDependencies:
       '@capacitor/cli':
         specifier: ^5.5.0

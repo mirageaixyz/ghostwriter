@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useSearchParam } from "../lib/hooks/useSearchParam";
 import Me from "./me";
 import Prompt from "./prompt";
 import Video from "./video";
 
 const LandingPage = () => {
-  const [id, setId] = useState<string>();
+  const [id, setId] = useSearchParam("id");
 
   return (
     <div className="flex flex-col w-full min-h-[100dvh] bg-gradient-to-t from-vista-400/25 to-transparent">

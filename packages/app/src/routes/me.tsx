@@ -1,5 +1,6 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { useState, type FC } from "react";
+import toast from "react-hot-toast";
 import { useMe } from "../lib/context/me";
 import { baseUrl, trpc } from "../lib/trpc";
 import LoginDialog from "./login-dialog";
@@ -8,7 +9,7 @@ const Me: FC = () => {
   const me = useMe();
   const [isDialogOpen, setDialogOpen] = useState(false);
   const utils = trpc.useUtils();
-  const { mutate } = trpc.logout.useMutation({
+  const { mutateAsync, isLoading: isMutating } = trpc.logout.useMutation({
     onSuccess: ({ success }) => {
       if (success) {
         utils.me.invalidate();
@@ -16,7 +17,7 @@ const Me: FC = () => {
     },
   });
 
-  if (me.isUserLoading) {
+  if (me.isUserLoading || isMutating) {
     return (
       <div className="w-9 h-9 inline-flex items-center justify-center rounded-lg bg-white">
         <svg
@@ -59,9 +60,9 @@ const Me: FC = () => {
         <DropdownMenu.Portal>
           <DropdownMenu.Content
             className="flex items-center justify-center flex-col gap-2 mx-4
-          min-w-[250px] bg-white rounded-lg p-2 z-40 shadow-md border border-black/10
-          data-[side=top]:animate-slide-fade-up data-[side=right]:animate-slide-fade-right 
-          data-[side=bottom]:animate-slide-fade-down data-[side=left]:animate-slide-fade-left"
+            min-w-[250px] bg-white rounded-lg p-2 z-40 shadow-md border border-black/10
+            data-[side=top]:animate-slide-fade-up data-[side=right]:animate-slide-fade-right 
+            data-[side=bottom]:animate-slide-fade-down data-[side=left]:animate-slide-fade-left"
             sideOffset={5}
           >
             <DropdownMenu.Label className="w-full px-3 py-2">
@@ -115,7 +116,13 @@ const Me: FC = () => {
               <DropdownMenu.Item asChild>
                 <button
                   className="group rounded w-full flex items-center gap-2 py-2 px-3 select-none outline-none hover:bg-vista-50 active:bg-vista-50 transition-all cursor-pointer"
-                  onClick={() => mutate()}
+                  onClick={async () => {
+                    await toast.promise(mutateAsync(), {
+                      loading: "Logging out...",
+                      success: "Logged out!",
+                      error: "Failed to logout",
+                    });
+                  }}
                 >
                   <img className="w-5 h-5 rounded-full" src="/icons/bye.svg" />
                   <span className="text-sm">Logout</span>

@@ -24,7 +24,8 @@
     "react-confetti-explosion": "^2.1.2",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
-    "react-router-dom": "^6.17.0"
+    "react-router-dom": "^6.17.0",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@capacitor/cli": "^5.5.0",

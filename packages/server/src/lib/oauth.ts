@@ -82,8 +82,8 @@ oauth.get("/github/callback", async (c) => {
       headers: {
         Location:
           env.NODE_ENV === "PROD"
-            ? "https://ghostwriter.mirageai.xyz"
-            : "http://localhost:5173",
+            ? "https://ghostwriter.mirageai.xyz?justLoggedIn=true"
+            : "http://localhost:5173?justLoggedIn=true",
         "Set-Cookie": sessionCookie.serialize(),
       },
       status: 302,
