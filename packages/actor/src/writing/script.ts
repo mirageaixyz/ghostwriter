@@ -1,5 +1,6 @@
 import { writeFile } from "node:fs/promises";
 import { z } from "zod";
+import { withOutDir } from "../lib/files.js";
 import { Line, type Script } from "./ai.js";
 
 export type PostLine = z.infer<typeof PostLine>;
@@ -38,7 +39,7 @@ export async function meta(
   };
 
   await writeFile(
-    "./out/script.txt",
+    withOutDir("./script.txt"),
     script
       .map((line) =>
         line.kind === "narrator"
@@ -48,7 +49,10 @@ export async function meta(
       .join("\n")
   );
 
-  await writeFile("./out/metadata.json", JSON.stringify(metadata, null, 2));
+  await writeFile(
+    withOutDir("./metadata.json"),
+    JSON.stringify(metadata, null, 2)
+  );
 
   return metadata;
 }

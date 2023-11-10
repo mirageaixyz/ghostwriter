@@ -4,11 +4,12 @@ import speech from "elevenlabs-node";
 import ffmpeg from "fluent-ffmpeg";
 import { unlink } from "node:fs/promises";
 import { env } from "../env.js";
+import { withOutDir } from "../lib/files.js";
 import { Script } from "../writing/ai.js";
 import { findVoice } from "./voice.js";
 
 export function audiofile(index: number) {
-  return `./out/audio-line-${index}.mp3`;
+  return withOutDir(`./audio-line-${index}.mp3`);
 }
 
 export async function voiceAct(
@@ -24,7 +25,9 @@ export async function voiceAct(
   const res = await speech.textToSpeech(
     env.ELEVENLABS_KEY,
     id,
-    modifications.length > 0 ? "./out/need-audio-tuning-0.mp3" : filename,
+    modifications.length > 0
+      ? withOutDir("./need-audio-tuning-0.mp3")
+      : filename,
     content,
     0.5,
     0.5
@@ -38,11 +41,11 @@ export async function voiceAct(
   if (modifications.length > 0) {
     for (let i = 0; i < modifications.length; i++) {
       const modification = modifications[i];
-      const curr = `./out/need-audio-tuning-${i}.mp3`;
+      const curr = withOutDir(`./need-audio-tuning-${i}.mp3`);
       const next =
         i === modifications.length - 1
           ? filename
-          : `./out/need-audio-tuning-${i + 1}.mp3`;
+          : withOutDir(`./need-audio-tuning-${i + 1}.mp3`);
 
       await new Promise<void>((resolve) =>
         ffmpeg(curr)
@@ -67,7 +70,7 @@ export async function composeVoices(script: Script["lines"]) {
   const names = script.map((_, i) => audiofile(i));
   await new Promise<void>((resolve) =>
     audioconcat(names)
-      .concat("./out/output.mp3")
+      .concat(withOutDir("./output.mp3"))
       .on("end", () => resolve())
   );
   await Promise.all(names.map((name) => unlink(name)));

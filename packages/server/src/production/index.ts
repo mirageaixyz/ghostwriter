@@ -1,3 +1,4 @@
+import { withOutDir } from "@ghostwriter/actor";
 import consola from "consola";
 import { productions } from "../data/content.js";
 import { takeCut } from "./actor.js";
@@ -17,6 +18,10 @@ export async function produce(
       status: "writing",
     },
   });
+
+  consola.debug(
+    `Path is starting at ${__dirname} and out is at ${withOutDir("./")}}`
+  );
 
   try {
     const metadata = await takeCut(input, {
@@ -53,7 +58,7 @@ export async function produce(
       },
     });
 
-    await fixInPost(metadata, `./out/${id}.mp4`);
+    await fixInPost(metadata, withOutDir(`./${id}.mp4`));
     productions.set(id, {
       id,
       createdAt,
@@ -63,6 +68,7 @@ export async function produce(
       },
     });
   } catch (e) {
+    consola.error(e);
     productions.set(id, {
       id,
       createdAt,

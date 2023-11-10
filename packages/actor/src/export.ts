@@ -69,6 +69,7 @@ export async function produce(
   return metadata;
 }
 
+export { withOutDir } from "./lib/files.js";
 export { Voice } from "./voiceacting/voice.js";
 export { Line, Option, Script } from "./writing/ai.js";
 export { Persona } from "./writing/persona.js";

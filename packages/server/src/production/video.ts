@@ -1,4 +1,8 @@
-import { secondsFrom, type produce as takeCut } from "@ghostwriter/actor";
+import {
+  secondsFrom,
+  withOutDir,
+  type produce as takeCut,
+} from "@ghostwriter/actor";
 import { bundle } from "@remotion/bundler";
 import { renderMedia, selectComposition } from "@remotion/renderer";
 import { enableTailwind } from "@remotion/tailwind";
@@ -12,7 +16,7 @@ export async function fixInPost(
   const start = Date.now();
 
   consola.start("Copying files...");
-  await copyFile("./out/output.mp4", "../video/public/out/output.mp4");
+  await copyFile(withOutDir("./output.mp4"), "../video/public/out/output.mp4");
   consola.success(`Copied files! (Took ${secondsFrom(start)}s)`);
 
   const startBundle = Date.now();

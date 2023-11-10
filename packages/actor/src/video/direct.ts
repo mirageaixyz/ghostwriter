@@ -1,8 +1,9 @@
 import ffmpeg from "fluent-ffmpeg";
+import { withOutDir } from "../lib/files.js";
 
 export async function direct() {
   const duration = await new Promise<number>((resolve) =>
-    ffmpeg.ffprobe("./out/output.mp3", (_, { format }) => {
+    ffmpeg.ffprobe(withOutDir("./output.mp3"), (_, { format }) => {
       resolve(format.duration ?? 0);
     })
   );
@@ -10,7 +11,7 @@ export async function direct() {
   await new Promise<void>((resolve) =>
     ffmpeg()
       .input("../../video.mp4")
-      .input("./out/output.mp3")
+      .input(withOutDir("./output.mp3"))
       .outputOptions([
         "-c:v copy",
         "-c:a aac",
@@ -19,6 +20,6 @@ export async function direct() {
         `-t ${duration}`,
       ])
       .on("end", () => resolve())
-      .save("./out/output.mp4")
+      .save(withOutDir("./output.mp4"))
   );
 }
