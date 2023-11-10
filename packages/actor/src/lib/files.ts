@@ -1,4 +1,4 @@
-import { join } from "node:path";
+import { resolve } from "node:path";
 export function withOutDir(path: string) {
-  return join("./out", path);
+  return resolve(__dirname, "./out", path);
 }

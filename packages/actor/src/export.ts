@@ -1,5 +1,6 @@
 import consola from "consola";
 import { mkdir } from "node:fs/promises";
+import { resolve } from "node:path";
 import { direct } from "./video/direct.js";
 import { audiofile, composeVoices, voiceAct } from "./voiceacting/ai.js";
 import { Option, script } from "./writing/ai.js";
@@ -21,7 +22,7 @@ export async function produce(
   const start = Date.now();
   consola.start(`Generating script...`);
 
-  await mkdir("out", { recursive: true });
+  await mkdir(resolve(__dirname, "./out"), { recursive: true });
 
   const draft = await script(option);
 

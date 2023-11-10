@@ -8,6 +8,7 @@ import { renderMedia, selectComposition } from "@remotion/renderer";
 import { enableTailwind } from "@remotion/tailwind";
 import consola from "consola";
 import { copyFile } from "node:fs/promises";
+import { resolve } from "node:path";
 
 export async function fixInPost(
   metadata: NonNullable<Awaited<ReturnType<typeof takeCut>>>,
@@ -16,7 +17,10 @@ export async function fixInPost(
   const start = Date.now();
 
   consola.start("Copying files...");
-  await copyFile(withOutDir("./output.mp4"), "../video/public/out/output.mp4");
+  await copyFile(
+    withOutDir("./output.mp4"),
+    resolve(__dirname, "../video/public/out/output.mp4")
+  );
   consola.success(`Copied files! (Took ${secondsFrom(start)}s)`);
 
   const startBundle = Date.now();
