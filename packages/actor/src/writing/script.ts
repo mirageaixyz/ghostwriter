@@ -38,7 +38,7 @@ export async function meta(
   };
 
   await writeFile(
-    "out/script.txt",
+    "./out/script.txt",
     script
       .map((line) =>
         line.kind === "narrator"
@@ -48,7 +48,7 @@ export async function meta(
       .join("\n")
   );
 
-  await writeFile("out/metadata.json", JSON.stringify(metadata, null, 2));
+  await writeFile("./out/metadata.json", JSON.stringify(metadata, null, 2));
 
   return metadata;
 }
