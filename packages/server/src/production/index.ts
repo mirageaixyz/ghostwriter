@@ -74,5 +74,12 @@ export async function produce(
         reason: `${e}`,
       },
     });
+  } finally {
+    await new Promise<undefined>((resolve) =>
+      setTimeout(() => {
+        productions.ee.emit(`status:${id}:close`, null);
+        resolve(undefined);
+      }, 1000)
+    );
   }
 }
