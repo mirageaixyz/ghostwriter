@@ -46,7 +46,7 @@ export const router = t.router({
         message: "You must be logged in to create content.",
       });
 
-    await sql("update users u set usages = usages + 1 where u.id = $1", [
+    await sql("update users set usages = usages + 1 where u.id = $1", [
       ctx.session.user.id,
     ]);
 
