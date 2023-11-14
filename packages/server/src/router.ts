@@ -6,6 +6,7 @@ import { ulid } from "ulid";
 import { z } from "zod";
 import { Context } from "./context.js";
 import { Production, productions } from "./data/content.js";
+import { sql } from "./data/pg.js";
 import { auth } from "./lib/lucia.js";
 import { session as getSession } from "./lib/oauth.js";
 import { produce } from "./production/index.js";
@@ -47,6 +48,10 @@ export const router = t.router({
         code: "UNAUTHORIZED",
         message: "You must be logged in to create content.",
       });
+
+    await sql("update users u set usages = usages + 1 where u.id = $1", [
+      ctx.session.user.id,
+    ]);
 
     const id = ulid();
     produce(id, input);
