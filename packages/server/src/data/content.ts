@@ -12,6 +12,7 @@ export const Production = z.object({
     z.object({ status: z.literal("error"), reason: z.string() }),
     z.object({ status: z.literal("done"), uri: z.string() }),
   ]),
+  userId: z.string(),
 });
 
 export const productions = memory(Production);

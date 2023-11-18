@@ -18,7 +18,7 @@ if (kind === "ai") {
     }
   );
 
-  await produce("result", {
+  await produce("result", "", {
     kind,
     topic: topic || "cats",
   });
@@ -52,7 +52,7 @@ if (kind === "ai") {
     });
   }
 
-  await produce("result", {
+  await produce("result", "", {
     kind,
     script: { lines },
   });

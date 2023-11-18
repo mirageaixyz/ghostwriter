@@ -1,7 +1,7 @@
 import { useEffect, useRef, type FC } from "react";
 import ConfettiExplosion from "react-confetti-explosion";
 import toast from "react-hot-toast";
-import { baseUrl, trpc } from "../lib/trpc";
+import { baseUrl, trpc, trpcStream } from "../lib/trpc";
 
 type VideoProps = {
   id: string;
@@ -9,36 +9,39 @@ type VideoProps = {
 };
 
 const Video: FC<VideoProps> = ({ id, reset }) => {
-  const { data, refetch } = trpc.status.useQuery(id, {
+  const { data: initialData, isError } = trpc.status.useQuery(id, {
     staleTime: 1000,
     keepPreviousData: true,
   });
-  const state = data?.video.status ?? "writing";
-  const uri = data?.video.status === "done" ? data.video.uri : undefined;
+  const { data } = trpcStream.status.useStream(id, {
+    initialValue: initialData ?? {
+      id,
+      createdAt: new Date().toISOString(),
+      video: { status: "writing" },
+      userId: "",
+    },
+    enabled: !!initialData && !isError,
+  });
+  const state = data?.video?.status ?? "writing";
+  const uri = data?.video?.status === "done" ? data.video.uri : undefined;
   const ref = useRef<HTMLVideoElement | null>(null);
+  const hasNotified = useRef(false);
 
   useEffect(() => {
-    if (state === "done") return;
-
-    const interval = setInterval(() => {
-      toast("Updating...", {
-        icon: "🤞",
-        duration: 1000,
-      });
-      refetch();
-    }, 1000 * 30);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [state, refetch]);
-
-  useEffect(() => {
-    if (data === null) {
+    if (initialData === null || isError) {
       toast.error("Video not found");
       reset();
     }
-  }, [data]);
+  }, [initialData, isError]);
+
+  useEffect(() => {
+    if (hasNotified.current) return;
+    toast("Production started, it may take a few minutes..", {
+      icon: "🎬",
+      className: "text-sm !max-w-[unset]",
+    });
+    hasNotified.current = true;
+  }, []);
 
   if (state === "error") {
     return (

@@ -7,6 +7,7 @@ import { fixInPost } from "./video.js";
 
 export async function produce(
   id: string,
+  userId: string,
   input: Parameters<typeof takeCut>[0]
 ) {
   const uri = `/out/${id}.mp4`;
@@ -18,6 +19,7 @@ export async function produce(
     video: {
       status: "writing",
     },
+    userId,
   });
 
   try {
@@ -29,6 +31,7 @@ export async function produce(
           video: {
             status: "acting",
           },
+          userId,
         });
       },
     });
@@ -42,6 +45,7 @@ export async function produce(
           status: "error",
           reason: "Failed to record lines or write script",
         },
+        userId,
       });
 
       return;
@@ -53,6 +57,7 @@ export async function produce(
       video: {
         status: "editing",
       },
+      userId,
     });
 
     await fixInPost(result, resolve(currentDir, `./out/${id}.mp4`));
@@ -63,6 +68,7 @@ export async function produce(
         status: "done",
         uri,
       },
+      userId,
     });
   } catch (e) {
     consola.error(e);
@@ -73,6 +79,14 @@ export async function produce(
         status: "error",
         reason: `${e}`,
       },
+      userId,
     });
+  } finally {
+    await new Promise<undefined>((resolve) =>
+      setTimeout(() => {
+        productions.ee.emit(`status:${id}:close`, null);
+        resolve(undefined);
+      }, 400)
+    );
   }
 }

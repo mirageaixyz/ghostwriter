@@ -7,7 +7,7 @@ import { cors } from "hono/cors";
 import { createContext } from "./context.js";
 import { env } from "./lib/env.js";
 import { oauth } from "./lib/oauth.js";
-import { router } from "./router.js";
+import { router, streamRouter } from "./router.js";
 import "./scheduler.js";
 
 const app = new Hono();
@@ -41,6 +41,7 @@ app.use(
 );
 
 app.route("/oauth", oauth);
+app.route("/trpc-stream", streamRouter);
 
 app.get(
   "/out/*",
