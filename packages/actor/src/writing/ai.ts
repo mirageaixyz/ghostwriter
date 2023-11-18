@@ -53,7 +53,7 @@ export async function generateScript(
         content: JSON.stringify({ topic }),
       },
     ],
-    max_tokens: 2100,
+    max_tokens: 2048,
     temperature: 1,
     top_p: 1,
     frequency_penalty: 0,
@@ -99,7 +99,7 @@ export async function script(
           current.lines.push({
             kind: "spoken",
             name,
-            content: words,
+            content: words.trim(),
             emotion: Emotion.parse(emotion),
           });
           break;
@@ -107,7 +107,7 @@ export async function script(
         case "narrator": {
           current.lines.push({
             kind: "narrator",
-            text: words,
+            text: words.trim(),
           });
           break;
         }

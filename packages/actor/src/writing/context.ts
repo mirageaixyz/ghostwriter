@@ -19,7 +19,8 @@ ${preset.relationships.map((r) => `- ${r.description}`).join("\n")}
 
 The video format are:
 - Roughly 2 mins video
-- Roughtly 12-15 lines in total
+- Roughly 12-15 lines in total
+- Roughly 1200 characters in total
 
 The script must only contain lines voiced by the character or a narrator, and is written in the following format:
   - always be in the \`<name>|<words>|<emotion>\` (i.e. \`Joe Biden|Hello, guys!|happy\`), no spaces between the \`|\`
