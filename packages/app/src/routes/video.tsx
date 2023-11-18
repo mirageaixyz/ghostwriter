@@ -18,28 +18,14 @@ const Video: FC<VideoProps> = ({ id, reset }) => {
       id,
       createdAt: new Date().toISOString(),
       video: { status: "writing" },
+      userId: "",
     },
     enabled: !!initialData && !isError,
   });
   const state = data?.video?.status ?? "writing";
   const uri = data?.video?.status === "done" ? data.video.uri : undefined;
   const ref = useRef<HTMLVideoElement | null>(null);
-
-  // useEffect(() => {
-  //   if (state === "done") return;
-
-  //   const interval = setInterval(() => {
-  //     toast("Updating...", {
-  //       icon: "🤞",
-  //       duration: 1000,
-  //     });
-  //     refetch();
-  //   }, 1000 * 30);
-
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }, [state, refetch]);
+  const hasNotified = useRef(false);
 
   useEffect(() => {
     if (initialData === null || isError) {
@@ -47,6 +33,15 @@ const Video: FC<VideoProps> = ({ id, reset }) => {
       reset();
     }
   }, [initialData, isError]);
+
+  useEffect(() => {
+    if (hasNotified.current) return;
+    toast("Production started, it may take a few minutes..", {
+      icon: "🎬",
+      className: "text-sm !max-w-[unset]",
+    });
+    hasNotified.current = true;
+  }, []);
 
   if (state === "error") {
     return (

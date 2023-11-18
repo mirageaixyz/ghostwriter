@@ -1,8 +1,10 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import { TRPCClientError } from "@trpc/client";
 import { useEffect, useState, type FC } from "react";
 import { useMe } from "../lib/context/me";
 import { trpc } from "../lib/trpc";
 import LoginDialog from "./login-dialog";
+import ThrottleDialog from "./throttle-dialog";
 import WaitingDialog from "./waiting-dialog";
 
 const HEADLINES = ["video", "tiktok", "post", "tweet", "short"] as const;
@@ -22,12 +24,21 @@ const Prompt: FC<PromptProps> = ({ id, setId }) => {
   const me = useMe();
   const [isLoginDialogOpen, setLoginDialogOpen] = useState(false);
   const [isWaitingDialogOpen, setWaitingDialogOpen] = useState(false);
+  const [isThrottleDialogOpen, setThrottleDialogOpen] = useState(false);
   const utils = trpc.useUtils();
 
   const { mutate, isLoading } = trpc.newContent.useMutation({
     onSuccess: async ({ id }) => {
       await utils.status.invalidate();
       setId(id);
+    },
+    onError: (err) => {
+      if (err instanceof TRPCClientError) {
+        console.log(err.cause);
+        setThrottleDialogOpen(
+          err.message.toLowerCase().includes("please wait")
+        );
+      }
     },
   });
 
@@ -86,6 +97,10 @@ const Prompt: FC<PromptProps> = ({ id, setId }) => {
       <WaitingDialog
         open={isWaitingDialogOpen}
         onOpenChange={setWaitingDialogOpen}
+      />
+      <ThrottleDialog
+        open={isThrottleDialogOpen}
+        onOpenChange={setThrottleDialogOpen}
       />
 
       {/* Background text */}
