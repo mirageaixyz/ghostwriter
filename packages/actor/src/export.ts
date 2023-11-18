@@ -27,7 +27,15 @@ export async function produce(
 
   const draft = await script(option);
 
-  consola.success(`Generated script! (Took ${secondsFrom(start)}s)`);
+  const length = draft.lines
+    .map((each) =>
+      each.kind === "narrator" ? each.text.length : each.content.length
+    )
+    .reduce((a, b) => a + b, 0);
+
+  consola.success(
+    `Generated script of ${length} characters! (Took ${secondsFrom(start)}s)`
+  );
 
   const startVoice = Date.now();
   consola.start("Generating voices...");
